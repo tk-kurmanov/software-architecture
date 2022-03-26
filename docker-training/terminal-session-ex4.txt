@@ -1,0 +1,82 @@
+nomad@Nomad-MacBook-Pro dockerbuild % cd ..
+nomad@Nomad-MacBook-Pro ~ % docker login
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: tkurmanov
+Password:
+Login Succeeded
+
+Logging in with your password grants your terminal complete access to your account.
+For better security, log in with a limited-privilege personal access token. Learn more at https://docs.docker.com/go/access-tokens/
+nomad@Nomad-MacBook-Pro ~ % docker search kafka
+NAME                                      DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+bitnami/kafka                             Apache Kafka is a distributed streaming plat…   422                  [OK]
+kafkamanager/kafka-manager                Docker image for Kafka manager                  146
+bitnami/kafka-exporter                                                                    5
+ibmcom/kafka                              Docker Image for IBM Cloud Private-CE (Commu…   5
+bitnami/kafka-trigger-controller          Source for this controller is in the kubeles…   3
+kafkaesqueio/pulsar-all                   Apache Pulsar with all optional packages inc…   3
+ibmcom/eventstreams-kafkaconnect          Docker image for Kafka Connect with the IBM …   2
+rancher/kafka                                                                             2
+ibmcom/kafka-java-console-sample          Docker image for the IBM Event Streams Java …   1
+ibmcom/kafka-retry                        Kafka Retry provides a generic, delayed retr…   1
+ibmcom/kafka-java-liberty-sample          Docker image for the IBM Event Streams Java …   1
+ibmcom/kafka-nodejs-console-sample        Docker image for the IBM Event Streams Node.…   1
+ibmcom/kafka-sender                                                                       1
+ibmcom/kafka-python-console-sample        Docker image for the IBM Event Streams Pytho…   1
+ibmcom/kafka-receiver                                                                     1
+pachyderm/kafka-example-consumer                                                          0
+pachyderm/kafka_spout                                                                     0
+ibmcom/eventstreams-kafkamirrormaker      Docker image for Kafka Mirror Maker             0
+ibmcom/kafka-java-console-schema-sample                                                   0
+ibmcom/kafka-amd64                                                                        0
+ibmcom/kafka-golang-console-sample                                                        0
+ibmcom/kafka-ppc64le                      An open-source stream processing platform       0
+kafkasocks/mm-prod                                                                        0
+kafkaesqueio/pulsar                       Apache Pulsar                                   0
+pachyderm/kafka-example-producer                                                          0
+nomad@Nomad-MacBook-Pro ~ % docker pull bitnami/kafka
+Using default tag: latest
+latest: Pulling from bitnami/kafka
+a2b89359fa38: Pull complete
+a3df16b9114c: Pull complete
+8c7287c6f76d: Pull complete
+608615bfcc58: Pull complete
+02cd52ab47ff: Pull complete
+54b1710fec38: Pull complete
+b9094400a163: Pull complete
+2eb9ada2ba0d: Pull complete
+4acebc5edf41: Pull complete
+f5ad4d2c1700: Pull complete
+6dfccca19b47: Pull complete
+addd8b4581cf: Pull complete
+36f392f51b18: Pull complete
+3ffd93ba2f12: Pull complete
+Digest: sha256:373cc9bf24504843c89f24e9635f9a92366aab93341a0e1ddf63ac04c1f446ec
+Status: Downloaded newer image for bitnami/kafka:latest
+docker.io/bitnami/kafka:latest
+nomad@Nomad-MacBook-Pro ~ % docker images
+REPOSITORY      TAG       IMAGE ID       CREATED          SIZE
+delner/ping     latest    4f99aec595d1   10 minutes ago   139MB
+<none>          <none>    4d9bb59e1cd2   11 minutes ago   139MB
+<none>          <none>    8b6b075de979   13 minutes ago   170MB
+bitnami/kafka   latest    c6a40f562e4f   24 hours ago     618MB
+mongo           latest    798d1656acba   6 days ago       698MB
+ubuntu          16.04     b6f507652425   6 months ago     135MB
+nomad@Nomad-MacBook-Pro ~ % docker tag 4d9b tkurmanov/ping:1.0
+nomad@Nomad-MacBook-Pro ~ % docker images
+REPOSITORY       TAG       IMAGE ID       CREATED          SIZE
+delner/ping      latest    4f99aec595d1   18 minutes ago   139MB
+tkurmanov/ping   1.0       4d9bb59e1cd2   19 minutes ago   139MB
+<none>           <none>    8b6b075de979   22 minutes ago   170MB
+bitnami/kafka    latest    c6a40f562e4f   24 hours ago     618MB
+mongo            latest    798d1656acba   6 days ago       698MB
+ubuntu           16.04     b6f507652425   6 months ago     135MB
+nomad@Nomad-MacBook-Pro ~ % docker push tkurmanov/ping:1.0
+The push refers to repository [docker.io/tkurmanov/ping]
+46f1142e7206: Pushed
+1251204ef8fc: Pushed
+47ef83afae74: Pushed
+df54c846128d: Pushed
+be96a3f634de: Pushed
+1.0: digest: sha256:4e83822c670907d01bb58a70b64988960f6a0f18f4c8dfa1601e5bbf516425a3 size: 1361
+nomad@Nomad-MacBook-Pro ~ %

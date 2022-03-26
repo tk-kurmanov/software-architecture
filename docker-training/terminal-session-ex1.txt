@@ -1,0 +1,115 @@
+nomad@Nomad-MacBook-Pro ~ % docker images
+REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
+mongo        latest    798d1656acba   6 days ago   698MB
+nomad@Nomad-MacBook-Pro ~ % docker search ubuntu
+NAME                             DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+ubuntu                           Ubuntu is a Debian-based Linux operating sys…   13930     [OK]
+websphere-liberty                WebSphere Liberty multi-architecture images …   283       [OK]
+ubuntu-upstart                   DEPRECATED, as is Upstart (find other proces…   112       [OK]
+neurodebian                      NeuroDebian provides neuroscience research s…   88        [OK]
+open-liberty                     Open Liberty multi-architecture images based…   51        [OK]
+ubuntu-debootstrap               DEPRECATED; use "ubuntu" instead                45        [OK]
+ubuntu/nginx                     Nginx, a high-performance reverse proxy & we…   37
+ubuntu/mysql                     MySQL open source fast, stable, multi-thread…   28
+ubuntu/apache2                   Apache, a secure & extensible open-source HT…   26
+ubuntu/prometheus                Prometheus is a systems and service monitori…   22
+kasmweb/ubuntu-bionic-desktop    Ubuntu productivity desktop for Kasm Workspa…   21
+ubuntu/squid                     Squid is a caching proxy for the Web. Long-t…   15
+ubuntu/postgres                  PostgreSQL is an open source object-relation…   15
+ubuntu/bind9                     BIND 9 is a very flexible, full-featured DNS…   13
+ubuntu/redis                     Redis, an open source key-value store. Long-…   9
+ubuntu/grafana                   Grafana, a feature rich metrics dashboard & …   5
+ubuntu/prometheus-alertmanager   Alertmanager handles client alerts from Prom…   5
+ubuntu/memcached                 Memcached, in-memory keyvalue store for smal…   4
+ubuntu/telegraf                  Telegraf collects, processes, aggregates & w…   3
+circleci/ubuntu-server           This image is for internal use                  3
+ubuntu/cortex                    Cortex provides storage for Prometheus. Long…   2
+ubuntu/cassandra                 Cassandra, an open source NoSQL distributed …   1
+bitnami/ubuntu-base-buildpack    Ubuntu base compilation image                   0                    [OK]
+snyk/ubuntu                      A base ubuntu image for all broker clients t…   0
+kasmweb/ubuntu-bionic-dind       Docker for Kasm Workspaces                      0
+nomad@Nomad-MacBook-Pro ~ % docker pull ubuntu:16.04
+16.04: Pulling from library/ubuntu
+58690f9b18fc: Pull complete
+b51569e7c507: Pull complete
+da8ef40b9eca: Pull complete
+fb15d46c38dc: Pull complete
+Digest: sha256:0f71fa8d4d2d4292c3c617fda2b36f6dabe5c8b6e34c3dc5b0d17d4e704bd39c
+Status: Downloaded newer image for ubuntu:16.04
+docker.io/library/ubuntu:16.04
+nomad@Nomad-MacBook-Pro ~ % docker pull ubuntu:16.10
+16.10: Pulling from library/ubuntu
+dca7be20e546: Pull complete
+40bca54f5968: Pull complete
+61464f23390e: Pull complete
+d99f0bcd5dc8: Pull complete
+120db6f90955: Pull complete
+Digest: sha256:8dc9652808dc091400d7d5983949043a9f9c7132b15c14814275d25f94bca18a
+Status: Downloaded newer image for ubuntu:16.10
+docker.io/library/ubuntu:16.10
+nomad@Nomad-MacBook-Pro ~ % docker images
+REPOSITORY   TAG       IMAGE ID       CREATED        SIZE
+mongo        latest    798d1656acba   6 days ago     698MB
+ubuntu       16.04     b6f507652425   6 months ago   135MB
+ubuntu       16.10     7d3f705d307c   4 years ago    107MB
+nomad@Nomad-MacBook-Pro ~ % docker rmi 7d3f705d307c
+Untagged: ubuntu:16.10
+Untagged: ubuntu@sha256:8dc9652808dc091400d7d5983949043a9f9c7132b15c14814275d25f94bca18a
+Deleted: sha256:7d3f705d307c7c225398e04d4c4f8512f64eb8a65959a1fb4514dfde18a047e7
+Deleted: sha256:d9db289b9342d9617596cd6ee3bba988629e24d9afa5db4e4b0e4e491c65007d
+Deleted: sha256:a87725e8597b97f2399bc3aa50b0e2eec903b8ce19055668d3befb012918205c
+Deleted: sha256:38cf10a2801529348366953e9b933d3524360dedc91d3e4d5d7f941da0c973c9
+Deleted: sha256:61172966249d43026dbd017eec3a9575e37bddf8a269a9f09ecb559d7bfe7fef
+Deleted: sha256:57145c01eb80040fdd0a24cde20af4788605b49593188d4f7efab099af89a08e
+nomad@Nomad-MacBook-Pro ~ % docker images
+REPOSITORY   TAG       IMAGE ID       CREATED        SIZE
+mongo        latest    798d1656acba   6 days ago     698MB
+ubuntu       16.04     b6f507652425   6 months ago   135MB
+nomad@Nomad-MacBook-Pro ~ % docker run ubuntu:16.04 /bin/echo 'Hello world!'
+Hello world!
+nomad@Nomad-MacBook-Pro ~ % docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+nomad@Nomad-MacBook-Pro ~ % docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                      PORTS     NAMES
+b66f641ef325   ubuntu:16.04   "/bin/echo 'Hello wo…"   20 seconds ago   Exited (0) 19 seconds ago             angry_visvesvaraya
+a808b764c198   mongo          "docker-entrypoint.s…"   12 hours ago     Exited (0) 12 hours ago               test-mongo
+nomad@Nomad-MacBook-Pro ~ % docker run -it ubuntu:16.04 /bin/bash
+root@ad449b41005a:/# pwd
+/
+root@ad449b41005a:/# ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@ad449b41005a:/# exit
+exit
+nomad@Nomad-MacBook-Pro ~ % docker run -d ubuntu:16.04 /bin/sleep 3600
+c3393ee2e16d580636fbed8f2415722d68c04f113f823cc50a235b7b66341f2f
+nomad@Nomad-MacBook-Pro ~ % docker ps
+CONTAINER ID   IMAGE          COMMAND             CREATED         STATUS         PORTS     NAMES
+c3393ee2e16d   ubuntu:16.04   "/bin/sleep 3600"   9 seconds ago   Up 8 seconds             elastic_lamarr
+nomad@Nomad-MacBook-Pro ~ % docker exec -it c33 /bin/bash
+root@c3393ee2e16d:/# ps aux
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.0   4380   676 ?        Ss   15:49   0:00 /bin/sleep 3600
+root         8  0.5  0.0  18244  3264 pts/0    Ss   15:50   0:00 /bin/bash
+root        19  0.0  0.0  34428  2820 pts/0    R+   15:50   0:00 ps aux
+root@c3393ee2e16d:/# exit
+exit
+nomad@Nomad-MacBook-Pro ~ % docker ps
+CONTAINER ID   IMAGE          COMMAND             CREATED              STATUS              PORTS     NAMES
+c3393ee2e16d   ubuntu:16.04   "/bin/sleep 3600"   About a minute ago   Up About a minute             elastic_lamarr
+nomad@Nomad-MacBook-Pro ~ % docker stop c339
+c339
+nomad@Nomad-MacBook-Pro ~ % docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS                        PORTS     NAMES
+c3393ee2e16d   ubuntu:16.04   "/bin/sleep 3600"        2 minutes ago   Exited (137) 26 seconds ago             elastic_lamarr
+ad449b41005a   ubuntu:16.04   "/bin/bash"              3 minutes ago   Exited (0) 2 minutes ago                heuristic_germain
+b66f641ef325   ubuntu:16.04   "/bin/echo 'Hello wo…"   4 minutes ago   Exited (0) 4 minutes ago                angry_visvesvaraya
+a808b764c198   mongo          "docker-entrypoint.s…"   12 hours ago    Exited (0) 12 hours ago                 test-mongo
+nomad@Nomad-MacBook-Pro ~ % docker rm c339
+c339
+nomad@Nomad-MacBook-Pro ~ % docker run --rm ubuntu:16.04 /bin/echo 'Hello and goodbye!'
+Hello and goodbye!
+nomad@Nomad-MacBook-Pro ~ % docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS                     PORTS     NAMES
+ad449b41005a   ubuntu:16.04   "/bin/bash"              4 minutes ago   Exited (0) 4 minutes ago             heuristic_germain
+b66f641ef325   ubuntu:16.04   "/bin/echo 'Hello wo…"   5 minutes ago   Exited (0) 5 minutes ago             angry_visvesvaraya
+a808b764c198   mongo          "docker-entrypoint.s…"   12 hours ago    Exited (0) 12 hours ago              test-mongo

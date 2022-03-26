@@ -1,0 +1,134 @@
+nomad@Nomad-MacBook-Pro ~ % docker run -it ubuntu:16.04 /bin/bash
+root@cf035caa4da4:/# ping google.com
+bash: ping: command not found
+root@cf035caa4da4:/# apt-get update
+Get:1 http://security.ubuntu.com/ubuntu xenial-security InRelease [99.8 kB]
+Get:2 http://archive.ubuntu.com/ubuntu xenial InRelease [247 kB]
+Get:3 http://security.ubuntu.com/ubuntu xenial-security/main amd64 Packages [2051 kB]
+Get:4 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [99.8 kB]
+Get:5 http://archive.ubuntu.com/ubuntu xenial-backports InRelease [97.4 kB]
+Get:6 http://archive.ubuntu.com/ubuntu xenial/main amd64 Packages [1558 kB]
+Get:7 http://archive.ubuntu.com/ubuntu xenial/restricted amd64 Packages [14.1 kB]
+Get:8 http://archive.ubuntu.com/ubuntu xenial/universe amd64 Packages [9827 kB]
+Get:9 http://security.ubuntu.com/ubuntu xenial-security/restricted amd64 Packages [15.9 kB]
+Get:10 http://security.ubuntu.com/ubuntu xenial-security/universe amd64 Packages [984 kB]
+Get:11 http://security.ubuntu.com/ubuntu xenial-security/multiverse amd64 Packages [8820 B]
+Get:12 http://archive.ubuntu.com/ubuntu xenial/multiverse amd64 Packages [176 kB]
+Get:13 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 Packages [2560 kB]
+Get:14 http://archive.ubuntu.com/ubuntu xenial-updates/restricted amd64 Packages [16.4 kB]
+Get:15 http://archive.ubuntu.com/ubuntu xenial-updates/universe amd64 Packages [1544 kB]
+Get:16 http://archive.ubuntu.com/ubuntu xenial-updates/multiverse amd64 Packages [26.2 kB]
+Get:17 http://archive.ubuntu.com/ubuntu xenial-backports/main amd64 Packages [10.9 kB]
+Get:18 http://archive.ubuntu.com/ubuntu xenial-backports/universe amd64 Packages [12.7 kB]
+Fetched 19.3 MB in 5s (3429 kB/s)
+Reading package lists... Done
+root@cf035caa4da4:/# apt-get install iputils-ping
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following additional packages will be installed:
+  libffi6 libgmp10 libgnutls-openssl27 libgnutls30 libhogweed4 libidn11 libnettle6 libp11-kit0 libtasn1-6
+Suggested packages:
+  gnutls-bin
+The following NEW packages will be installed:
+  iputils-ping libffi6 libgmp10 libgnutls-openssl27 libgnutls30 libhogweed4 libidn11 libnettle6 libp11-kit0 libtasn1-6
+0 upgraded, 10 newly installed, 0 to remove and 0 not upgraded.
+Need to get 1307 kB of archives.
+After this operation, 3785 kB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://archive.ubuntu.com/ubuntu xenial/main amd64 libgmp10 amd64 2:6.1.0+dfsg-2 [240 kB]
+Get:2 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libnettle6 amd64 3.2-1ubuntu0.16.04.2 [93.7 kB]
+Get:3 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libhogweed4 amd64 3.2-1ubuntu0.16.04.2 [136 kB]
+Get:4 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libidn11 amd64 1.32-3ubuntu1.2 [46.5 kB]
+Get:5 http://archive.ubuntu.com/ubuntu xenial/main amd64 libffi6 amd64 3.2.1-4 [17.8 kB]
+Get:6 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libp11-kit0 amd64 0.23.2-5~ubuntu16.04.2 [107 kB]
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libtasn1-6 amd64 4.7-3ubuntu0.16.04.3 [43.5 kB]
+Get:8 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libgnutls30 amd64 3.4.10-4ubuntu1.9 [548 kB]
+Get:9 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libgnutls-openssl27 amd64 3.4.10-4ubuntu1.9 [21.9 kB]
+Get:10 http://archive.ubuntu.com/ubuntu xenial/main amd64 iputils-ping amd64 3:20121221-5ubuntu2 [52.7 kB]
+Fetched 1307 kB in 1s (713 kB/s)
+debconf: delaying package configuration, since apt-utils is not installed
+Selecting previously unselected package libgmp10:amd64.
+(Reading database ... 4785 files and directories currently installed.)
+Preparing to unpack .../libgmp10_2%3a6.1.0+dfsg-2_amd64.deb ...
+Unpacking libgmp10:amd64 (2:6.1.0+dfsg-2) ...
+Selecting previously unselected package libnettle6:amd64.
+Preparing to unpack .../libnettle6_3.2-1ubuntu0.16.04.2_amd64.deb ...
+Unpacking libnettle6:amd64 (3.2-1ubuntu0.16.04.2) ...
+Selecting previously unselected package libhogweed4:amd64.
+Preparing to unpack .../libhogweed4_3.2-1ubuntu0.16.04.2_amd64.deb ...
+Unpacking libhogweed4:amd64 (3.2-1ubuntu0.16.04.2) ...
+Selecting previously unselected package libidn11:amd64.
+Preparing to unpack .../libidn11_1.32-3ubuntu1.2_amd64.deb ...
+Unpacking libidn11:amd64 (1.32-3ubuntu1.2) ...
+Selecting previously unselected package libffi6:amd64.
+Preparing to unpack .../libffi6_3.2.1-4_amd64.deb ...
+Unpacking libffi6:amd64 (3.2.1-4) ...
+Selecting previously unselected package libp11-kit0:amd64.
+Preparing to unpack .../libp11-kit0_0.23.2-5~ubuntu16.04.2_amd64.deb ...
+Unpacking libp11-kit0:amd64 (0.23.2-5~ubuntu16.04.2) ...
+Selecting previously unselected package libtasn1-6:amd64.
+Preparing to unpack .../libtasn1-6_4.7-3ubuntu0.16.04.3_amd64.deb ...
+Unpacking libtasn1-6:amd64 (4.7-3ubuntu0.16.04.3) ...
+Selecting previously unselected package libgnutls30:amd64.
+Preparing to unpack .../libgnutls30_3.4.10-4ubuntu1.9_amd64.deb ...
+Unpacking libgnutls30:amd64 (3.4.10-4ubuntu1.9) ...
+Selecting previously unselected package libgnutls-openssl27:amd64.
+Preparing to unpack .../libgnutls-openssl27_3.4.10-4ubuntu1.9_amd64.deb ...
+Unpacking libgnutls-openssl27:amd64 (3.4.10-4ubuntu1.9) ...
+Selecting previously unselected package iputils-ping.
+Preparing to unpack .../iputils-ping_3%3a20121221-5ubuntu2_amd64.deb ...
+Unpacking iputils-ping (3:20121221-5ubuntu2) ...
+Processing triggers for libc-bin (2.23-0ubuntu11.3) ...
+Setting up libgmp10:amd64 (2:6.1.0+dfsg-2) ...
+Setting up libnettle6:amd64 (3.2-1ubuntu0.16.04.2) ...
+Setting up libhogweed4:amd64 (3.2-1ubuntu0.16.04.2) ...
+Setting up libidn11:amd64 (1.32-3ubuntu1.2) ...
+Setting up libffi6:amd64 (3.2.1-4) ...
+Setting up libp11-kit0:amd64 (0.23.2-5~ubuntu16.04.2) ...
+Setting up libtasn1-6:amd64 (4.7-3ubuntu0.16.04.3) ...
+Setting up libgnutls30:amd64 (3.4.10-4ubuntu1.9) ...
+Setting up libgnutls-openssl27:amd64 (3.4.10-4ubuntu1.9) ...
+Setting up iputils-ping (3:20121221-5ubuntu2) ...
+Setcap is not installed, falling back to setuid
+Processing triggers for libc-bin (2.23-0ubuntu11.3) ...
+root@cf035caa4da4:/# ping google.com
+PING google.com (216.58.209.174) 56(84) bytes of data.
+^C
+--- google.com ping statistics ---
+82 packets transmitted, 0 received, 100% packet loss, time 82884ms
+
+root@cf035caa4da4:/# exit
+exit
+nomad@Nomad-MacBook-Pro ~ % docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                      PORTS     NAMES
+cf035caa4da4   ubuntu:16.04   "/bin/bash"              3 minutes ago    Exited (1) 4 seconds ago              objective_allen
+ad449b41005a   ubuntu:16.04   "/bin/bash"              13 minutes ago   Exited (0) 13 minutes ago             heuristic_germain
+b66f641ef325   ubuntu:16.04   "/bin/echo 'Hello wo…"   14 minutes ago   Exited (0) 14 minutes ago             angry_visvesvaraya
+a808b764c198   mongo          "docker-entrypoint.s…"   12 hours ago     Exited (0) 12 hours ago               test-mongo
+nomad@Nomad-MacBook-Pro ~ % docker commit --help
+
+Usage:  docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]
+
+Create a new image from a container's changes
+
+Options:
+  -a, --author string    Author (e.g., "John Hannibal Smith <hannibal@a-team.com>")
+  -c, --change list      Apply Dockerfile instruction to the created image
+  -m, --message string   Commit message
+  -p, --pause            Pause container during commit (default true)
+nomad@Nomad-MacBook-Pro ~ % docker commit -a 'Timur Kurmanov' -m 'Added ping utility' cf03 delner/ping
+sha256:86e08c7c3e4f81e483874ee2560944f64e83b93766ba5e159388f0923b3ec7b0
+nomad@Nomad-MacBook-Pro ~ % docker images
+REPOSITORY    TAG       IMAGE ID       CREATED          SIZE
+delner/ping   latest    86e08c7c3e4f   15 seconds ago   170MB
+mongo         latest    798d1656acba   6 days ago       698MB
+ubuntu        16.04     b6f507652425   6 months ago     135MB
+nomad@Nomad-MacBook-Pro ~ % docker run -it --rm delner/ping /bin/bash
+root@8bc5d5185c24:/# ping google.com
+PING google.com (216.58.209.174) 56(84) bytes of data.
+^C
+--- google.com ping statistics ---
+24 packets transmitted, 0 received, 100% packet loss, time 23550ms
+
+root@8bc5d5185c24:/#

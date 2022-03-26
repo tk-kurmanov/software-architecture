@@ -1,0 +1,92 @@
+nomad@Nomad-MacBook-Pro ~ % docker images
+REPOSITORY    TAG       IMAGE ID       CREATED         SIZE
+delner/ping   latest    86e08c7c3e4f   5 minutes ago   170MB
+mongo         latest    798d1656acba   6 days ago      698MB
+ubuntu        16.04     b6f507652425   6 months ago    135MB
+nomad@Nomad-MacBook-Pro ~ % docker rmi 86e0
+Untagged: delner/ping:latest
+Deleted: sha256:86e08c7c3e4f81e483874ee2560944f64e83b93766ba5e159388f0923b3ec7b0
+Deleted: sha256:88b9f8889a1bacbf1e3b6fca54b1b52483ff0255a03f49a81adf18f63d45583e
+nomad@Nomad-MacBook-Pro ~ % mkdir dockerbuild
+nomad@Nomad-MacBook-Pro ~ % cd dockerbuild
+nomad@Nomad-MacBook-Pro dockerbuild % touch Dockerfile
+nomad@Nomad-MacBook-Pro dockerbuild % docker build -t 'delner/ping' .
+[+] Building 11.1s (7/7) FINISHED
+ => [internal] load build definition from Dockerfile                                                                         0.0s
+ => => transferring dockerfile: 194B                                                                                         0.0s
+ => [internal] load .dockerignore                                                                                            0.0s
+ => => transferring context: 2B                                                                                              0.0s
+ => [internal] load metadata for docker.io/library/ubuntu:16.04                                                              0.0s
+ => [1/3] FROM docker.io/library/ubuntu:16.04                                                                                0.1s
+ => [2/3] RUN apt-get update                                                                                                 6.0s
+ => [3/3] RUN apt-get install -y iputils-ping                                                                                4.6s
+ => exporting to image                                                                                                       0.3s
+ => => exporting layers                                                                                                      0.2s
+ => => writing image sha256:8b6b075de979c7d68d1b1ff70f2604ac4c93a993d1258002cd9dbcd39fe21dfa                                 0.0s
+ => => naming to docker.io/delner/ping                                                                                       0.0s
+
+Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
+nomad@Nomad-MacBook-Pro dockerbuild % docker build -t 'delner/ping' .
+[+] Building 0.2s (7/7) FINISHED
+ => [internal] load build definition from Dockerfile                                                                         0.0s
+ => => transferring dockerfile: 83B                                                                                          0.0s
+ => [internal] load .dockerignore                                                                                            0.0s
+ => => transferring context: 2B                                                                                              0.0s
+ => [internal] load metadata for docker.io/library/ubuntu:16.04                                                              0.0s
+ => [1/3] FROM docker.io/library/ubuntu:16.04                                                                                0.0s
+ => CACHED [2/3] RUN apt-get update                                                                                          0.0s
+ => CACHED [3/3] RUN apt-get install -y iputils-ping                                                                         0.0s
+ => exporting to image                                                                                                       0.0s
+ => => exporting layers                                                                                                      0.0s
+ => => writing image sha256:8b6b075de979c7d68d1b1ff70f2604ac4c93a993d1258002cd9dbcd39fe21dfa                                 0.0s
+ => => naming to docker.io/delner/ping                                                                                       0.0s
+
+Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
+nomad@Nomad-MacBook-Pro dockerbuild % docker images
+REPOSITORY    TAG       IMAGE ID       CREATED              SIZE
+delner/ping   latest    8b6b075de979   About a minute ago   170MB
+mongo         latest    798d1656acba   6 days ago           698MB
+ubuntu        16.04     b6f507652425   6 months ago         135MB
+nomad@Nomad-MacBook-Pro dockerbuild % docker build -t 'delner/ping' .
+[+] Building 10.3s (6/6) FINISHED
+ => [internal] load build definition from Dockerfile                                                                         0.0s
+ => => transferring dockerfile: 332B                                                                                         0.0s
+ => [internal] load .dockerignore                                                                                            0.0s
+ => => transferring context: 2B                                                                                              0.0s
+ => [internal] load metadata for docker.io/library/ubuntu:16.04                                                              0.0s
+ => CACHED [1/2] FROM docker.io/library/ubuntu:16.04                                                                         0.0s
+ => [2/2] RUN apt-get update     && apt-get install -y iputils-ping     && apt-get clean     && cd /var/lib/apt/lists && r  10.1s
+ => exporting to image                                                                                                       0.1s
+ => => exporting layers                                                                                                      0.1s
+ => => writing image sha256:4d9bb59e1cd24df9227eacd6d78d721733b40dbca361dfa18371b3f406d0aacf                                 0.0s
+ => => naming to docker.io/delner/ping                                                                                       0.0s
+
+Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
+nomad@Nomad-MacBook-Pro dockerbuild % docker images
+REPOSITORY    TAG       IMAGE ID       CREATED         SIZE
+delner/ping   latest    4d9bb59e1cd2   5 seconds ago   139MB
+<none>        <none>    8b6b075de979   2 minutes ago   170MB
+mongo         latest    798d1656acba   6 days ago      698MB
+ubuntu        16.04     b6f507652425   6 months ago    135MB
+nomad@Nomad-MacBook-Pro dockerbuild % docker build -t 'delner/ping' .
+[+] Building 10.5s (6/6) FINISHED
+ => [internal] load build definition from Dockerfile                                                                         0.0s
+ => => transferring dockerfile: 401B                                                                                         0.0s
+ => [internal] load .dockerignore                                                                                            0.0s
+ => => transferring context: 2B                                                                                              0.0s
+ => [internal] load metadata for docker.io/library/ubuntu:16.04                                                              0.0s
+ => CACHED [1/2] FROM docker.io/library/ubuntu:16.04                                                                         0.0s
+ => [2/2] RUN apt-get update     && apt-get install -y iputils-ping     && apt-get clean     && cd /var/lib/apt/lists && r  10.3s
+ => exporting to image                                                                                                       0.1s
+ => => exporting layers                                                                                                      0.1s
+ => => writing image sha256:4f99aec595d168d12c7d455f06241d704d7e1c6d2d760d03a8887d80e12c83a9                                 0.0s
+ => => naming to docker.io/delner/ping                                                                                       0.0s
+
+Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
+nomad@Nomad-MacBook-Pro dockerbuild % docker run -it delner/ping
+PING google.com (216.58.209.206) 56(84) bytes of data.
+^C
+--- google.com ping statistics ---
+16 packets transmitted, 0 received, 100% packet loss, time 15339ms
+
+nomad@Nomad-MacBook-Pro dockerbuild %
