@@ -1,0 +1,29 @@
+nomad@Nomad-MacBook-Pro ~ % docker pull nginx
+Using default tag: latest
+latest: Pulling from library/nginx
+ae13dd578326: Already exists
+6c0ee9353e13: Pull complete
+dca7733b187e: Pull complete
+352e5a6cac26: Pull complete
+9eaf108767c7: Pull complete
+be0c016df0be: Pull complete
+Digest: sha256:4ed64c2e0857ad21c38b98345ebb5edb01791a0a10b0e9e3d9ddde185cdbd31a
+Status: Downloaded newer image for nginx:latest
+docker.io/library/nginx:latest
+nomad@Nomad-MacBook-Pro ~ % docker run -d --name nginx-first nginx
+d322192acffd207b3a1a907451ab46dc76353cc104f9c93b6b55d3fe56c4ccc6
+nomad@Nomad-MacBook-Pro ~ % docker run -d --name nginx-second nginx
+624fddbc64def325352fd77dbd8400d628e6df4d622785fcfa894a1fe2305b28
+nomad@Nomad-MacBook-Pro ~ % docker run -d --name nginx-third nginx
+04d1677afc75761c6e7c9b7a7d7f0f17a441331e09972126caec0022669c8580
+nomad@Nomad-MacBook-Pro ~ % docker stop nginx-third nginx-second
+nginx-third
+nginx-second
+nomad@Nomad-MacBook-Pro ~ % docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                     PORTS     NAMES
+04d1677afc75   nginx          "/docker-entrypoint.…"   31 seconds ago   Exited (0) 9 seconds ago             nginx-third
+624fddbc64de   nginx          "/docker-entrypoint.…"   41 seconds ago   Exited (0) 9 seconds ago             nginx-second
+d322192acffd   nginx          "/docker-entrypoint.…"   50 seconds ago   Up 48 seconds              80/tcp    nginx-first
+cf035caa4da4   ubuntu:16.04   "/bin/bash"              14 hours ago     Exited (1) 14 hours ago              objective_allen
+ad449b41005a   ubuntu:16.04   "/bin/bash"              14 hours ago     Exited (0) 14 hours ago              heuristic_germain
+b66f641ef325   ubuntu:16.04   "/bin/echo 'Hello wo…"   14 hours ago     Exited (0) 14 hours ago              angry_visvesvaraya

@@ -1,0 +1,26 @@
+nomad@Nomad-MacBook-Pro ~ % docker kill $(docker ps -q)
+d322192acffd
+nomad@Nomad-MacBook-Pro ~ % docker rm $(docker ps -a -q)
+04d1677afc75
+624fddbc64de
+d322192acffd
+cf035caa4da4
+ad449b41005a
+b66f641ef325
+nomad@Nomad-MacBook-Pro ~ % docker rmi $(docker images -q)
+Untagged: nginx:latest
+Untagged: nginx@sha256:4ed64c2e0857ad21c38b98345ebb5edb01791a0a10b0e9e3d9ddde185cdbd31a
+Deleted: sha256:f2f70adc5d89aa922836e9cc6801980a12a7ff9012446cc6edf52ef8798a67bd
+Deleted: sha256:67ebf5d071658c842ea9aa53588dea5bfb98635a2133151c0699c3eb487c114d
+Deleted: sha256:1bbfd0f49839d5fd15e209e5b7a44bfa4347cfcdf7a288a8f1d39d5a56664418
+Deleted: sha256:b689a5ad0c39e61cbd4532000b49f545169e27578b49492b5c3b368fe07d8337
+Deleted: sha256:16343f21b7f9c1bcb2930c8b6b97b3f8df9136e58492421f0fda966c834e4746
+Deleted: sha256:dfae993a20b32b42b6187b7e223c7f33cc19b2b092fe860a4c29f6dce551e91d
+Deleted: sha256:3a626bb08c24b5cc968d312bf5694aa87b6d9961c5f182c6bc138d8ca8ac13ee
+Untagged: ubuntu:16.04
+Untagged: ubuntu@sha256:0f71fa8d4d2d4292c3c617fda2b36f6dabe5c8b6e34c3dc5b0d17d4e704bd39c
+Deleted: sha256:b6f50765242581c887ff1acc2511fa2d885c52d8fb3ac8c4bba131fd86567f2e
+nomad@Nomad-MacBook-Pro ~ % docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+nomad@Nomad-MacBook-Pro ~ % docker images
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE

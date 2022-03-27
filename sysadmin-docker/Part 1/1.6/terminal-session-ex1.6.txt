@@ -1,0 +1,123 @@
+nomad@Nomad-MacBook-Pro ~ % cd git
+nomad@Nomad-MacBook-Pro git % cd software-architecture
+nomad@Nomad-MacBook-Pro software-architecture % cd sysadmin-docker
+nomad@Nomad-MacBook-Pro sysadmin-docker % cd part\ 1
+nomad@Nomad-MacBook-Pro part 1 % mkdir 1.6
+nomad@Nomad-MacBook-Pro part 1 % cd 1.6
+nomad@Nomad-MacBook-Pro 1.6 % touch Dockerfile
+nomad@Nomad-MacBook-Pro 1.6 % docker build -t docker build -t 'clock' .
+"docker build" requires exactly 1 argument.
+See 'docker build --help'.
+
+Usage:  docker build [OPTIONS] PATH | URL | -
+
+Build an image from a Dockerfile
+nomad@Nomad-MacBook-Pro 1.6 % docker build -t 'clock' .
+[+] Building 57.9s (6/6) FINISHED
+ => [internal] load build definition from Dockerfile                       0.0s
+ => => transferring dockerfile: 102B                                       0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 2B                                            0.0s
+ => [internal] load metadata for docker.io/devopsdockeruh/overwrite_cmd_e  3.7s
+ => [auth] devopsdockeruh/overwrite_cmd_exercise:pull token for registry-  0.0s
+ => [1/1] FROM docker.io/devopsdockeruh/overwrite_cmd_exercise@sha256:02  54.1s
+ => => resolve docker.io/devopsdockeruh/overwrite_cmd_exercise@sha256:02e  0.0s
+ => => sha256:02e38f4285d5cfaff5ed57ae67a8d99e041027da8f5 2.84kB / 2.84kB  0.0s
+ => => sha256:3d2b622b18494e6091e26f51da39cc7de833f6fb4ea 8.45kB / 8.45kB  0.0s
+ => => sha256:ef599477fae0e7485cae7d038240cda6358b3af22 10.79MB / 10.79MB  3.4s
+ => => sha256:4530c6472b5d2a08201c9cd65f43a788e526eb4fe49 4.34MB / 4.34MB  2.1s
+ => => sha256:092586df92068bd6b59c497f379e48302aa1b27c 45.38MB / 45.38MB  12.1s
+ => => sha256:d34d61487075d127bf6dd2906ea3abc50e0a3cd9 50.07MB / 50.07MB  16.1s
+ => => sha256:87fc2710b63fcf6c0a5c876b1b37773d9e949c 214.83MB / 214.83MB  33.9s
+ => => sha256:e83c771c5387a93b121fdd5ff15d311f4b24266298 4.17kB / 4.17kB  12.6s
+ => => extracting sha256:092586df92068bd6b59c497f379e48302aa1b27cf76b2de6  4.1s
+ => => sha256:fef6195892aef36aa9469d1f0d02286a2d98d974 22.24MB / 22.24MB  18.4s
+ => => sha256:70e1a68db51721edeee039102f08844e408b996bf7 1.40MB / 1.40MB  17.3s
+ => => extracting sha256:ef599477fae0e7485cae7d038240cda6358b3af22c7eb4ea  0.8s
+ => => sha256:c2599bbef3cb9d5a828c82cf00f14375216f2d6467867d 295B / 295B  17.8s
+ => => extracting sha256:4530c6472b5d2a08201c9cd65f43a788e526eb4fe498a4fb  0.4s
+ => => sha256:c5a7dd6f6ae1f64685c5c400f0f4f66cc88c6de10395bd 116B / 116B  18.3s
+ => => extracting sha256:d34d61487075d127bf6dd2906ea3abc50e0a3cd9aa2f230f  5.1s
+ => => sha256:446220381e7936f6e5c7cd12f0662e33282ff848 12.34kB / 12.34kB  18.7s
+ => => sha256:27d5280e809cc1ba6ac4c7b411555f34652f2b9e042201 185B / 185B  19.0s
+ => => extracting sha256:87fc2710b63fcf6c0a5c876b1b37773d9e949cb4d66eeb0  14.8s
+ => => extracting sha256:e83c771c5387a93b121fdd5ff15d311f4b2426629857e685  0.1s
+ => => extracting sha256:fef6195892aef36aa9469d1f0d02286a2d98d974d2664cec  2.2s
+ => => extracting sha256:70e1a68db51721edeee039102f08844e408b996bf734580e  0.2s
+ => => extracting sha256:c2599bbef3cb9d5a828c82cf00f14375216f2d6467867dd3  0.0s
+ => => extracting sha256:c5a7dd6f6ae1f64685c5c400f0f4f66cc88c6de10395bd35  0.0s
+ => => extracting sha256:446220381e7936f6e5c7cd12f0662e33282ff84854b93272  0.1s
+ => => extracting sha256:27d5280e809cc1ba6ac4c7b411555f34652f2b9e04220180  0.0s
+ => exporting to image                                                     0.0s
+ => => exporting layers                                                    0.0s
+ => => writing image sha256:6dccf1fb5480c81dc08fd85ff502a04ae500f080be587  0.0s
+ => => naming to docker.io/library/clock                                   0.0s
+
+Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
+nomad@Nomad-MacBook-Pro 1.6 % docker run -d -it clock
+d25cfd7bd649e80bdabb31e6b6b057249a5b883556331136098415fa4532eac1
+nomad@Nomad-MacBook-Pro 1.6 % docker logs clock
+Sun Mar 27 06:36:31 UTC 2022
+Sun Mar 27 06:36:32 UTC 2022
+Sun Mar 27 06:36:33 UTC 2022
+Sun Mar 27 06:36:34 UTC 2022
+Sun Mar 27 06:36:35 UTC 2022
+Sun Mar 27 06:36:36 UTC 2022
+Sun Mar 27 06:36:37 UTC 2022
+Sun Mar 27 06:36:38 UTC 2022
+Sun Mar 27 06:36:39 UTC 2022
+Sun Mar 27 06:36:40 UTC 2022
+Sun Mar 27 06:36:41 UTC 2022
+Sun Mar 27 06:36:42 UTC 2022
+Sun Mar 27 06:36:43 UTC 2022
+Sun Mar 27 06:36:44 UTC 2022
+Sun Mar 27 06:36:45 UTC 2022
+Sun Mar 27 06:36:46 UTC 2022
+Sun Mar 27 06:36:47 UTC 2022
+Sun Mar 27 06:36:48 UTC 2022
+Sun Mar 27 06:36:50 UTC 2022
+Sun Mar 27 06:36:51 UTC 2022
+Sun Mar 27 06:36:52 UTC 2022
+Sun Mar 27 06:36:52 UTC 2022
+Sun Mar 27 06:36:53 UTC 2022
+Sun Mar 27 06:36:55 UTC 2022
+Sun Mar 27 06:36:56 UTC 2022
+Sun Mar 27 06:36:57 UTC 2022
+Sun Mar 27 06:36:58 UTC 2022
+Sun Mar 27 06:36:59 UTC 2022
+Sun Mar 27 06:37:00 UTC 2022
+Sun Mar 27 06:37:01 UTC 2022
+Sun Mar 27 06:37:02 UTC 2022
+Sun Mar 27 06:37:03 UTC 2022
+Sun Mar 27 06:37:04 UTC 2022
+Sun Mar 27 06:37:05 UTC 2022
+Sun Mar 27 06:37:06 UTC 2022
+Sun Mar 27 06:37:07 UTC 2022
+Sun Mar 27 06:37:08 UTC 2022
+Sun Mar 27 06:37:09 UTC 2022
+Sun Mar 27 06:37:10 UTC 2022
+Sun Mar 27 06:37:11 UTC 2022
+Sun Mar 27 06:37:12 UTC 2022
+Sun Mar 27 06:37:13 UTC 2022
+Sun Mar 27 06:37:14 UTC 2022
+Sun Mar 27 06:37:15 UTC 2022
+Sun Mar 27 06:37:16 UTC 2022
+Sun Mar 27 06:37:17 UTC 2022
+Sun Mar 27 06:37:18 UTC 2022
+Sun Mar 27 06:37:19 UTC 2022
+Sun Mar 27 06:37:20 UTC 2022
+Sun Mar 27 06:37:21 UTC 2022
+Sun Mar 27 06:37:22 UTC 2022
+Sun Mar 27 06:37:23 UTC 2022
+Sun Mar 27 06:37:24 UTC 2022
+Sun Mar 27 06:37:25 UTC 2022
+Sun Mar 27 06:37:26 UTC 2022
+Sun Mar 27 06:37:27 UTC 2022
+Sun Mar 27 06:37:28 UTC 2022
+Sun Mar 27 06:37:29 UTC 2022
+Sun Mar 27 06:37:30 UTC 2022
+Sun Mar 27 06:37:31 UTC 2022
+Sun Mar 27 06:37:32 UTC 2022
+Sun Mar 27 06:37:33 UTC 2022
+Sun Mar 27 06:37:34 UTC 2022
+nomad@Nomad-MacBook-Pro 1.6 %

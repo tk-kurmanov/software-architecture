@@ -1,0 +1,17 @@
+nomad@Nomad-MacBook-Pro ~ % docker run -d --name loop devopsdockeruh/exec_bash_exercise
+2ab316f0fc9cb8d2ddc81a268cacd92ad0dbe1bbfc16b0ddec32a6ce7ba70904
+nomad@Nomad-MacBook-Pro ~ % docker exec loop tail -f ./logs.txt
+Sun, 27 Mar 2022 06:51:40 GMT
+Sun, 27 Mar 2022 06:51:43 GMT
+Sun, 27 Mar 2022 06:51:46 GMT
+Sun, 27 Mar 2022 06:51:49 GMT
+Secret message is:
+"Docker is easy"
+Sun, 27 Mar 2022 06:51:55 GMT
+Sun, 27 Mar 2022 06:51:58 GMT
+Sun, 27 Mar 2022 06:52:01 GMT
+Sun, 27 Mar 2022 06:52:04 GMT
+Secret message is:
+"Docker is easy"
+Sun, 27 Mar 2022 06:52:10 GMT
+^C%                         
