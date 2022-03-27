@@ -1,0 +1,16 @@
+nomad@Nomad-MacBook-Pro ~ % touch /tmp/logs.txt
+nomad@Nomad-MacBook-Pro ~ % docker run -v ${pwd}/tmp/logs.txt:/usr/app/logs.txt devopsdockeruh/first_volume_exercise
+Wrote to file /usr/app/logs.txt
+Wrote to file /usr/app/logs.txt
+Wrote to file /usr/app/logs.txt
+Wrote to file /usr/app/logs.txt
+Wrote to file /usr/app/logs.txt
+^CClosing file
+nomad@Nomad-MacBook-Pro ~ % cat /tmp/logs.txt
+Sun, 27 Mar 2022 12:55:47 GMT
+Sun, 27 Mar 2022 12:55:50 GMT
+Sun, 27 Mar 2022 12:55:53 GMT
+Sun, 27 Mar 2022 12:55:56 GMT
+Secret message is:
+"Volume bind mount is easy"
+nomad@Nomad-MacBook-Pro ~ % 

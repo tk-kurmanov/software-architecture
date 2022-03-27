@@ -1,0 +1,32 @@
+nomad@Nomad-MacBook-Pro ~ % cd git
+nomad@Nomad-MacBook-Pro git % cd software-architecture
+nomad@Nomad-MacBook-Pro software-architecture % cd sysadmin-docker
+nomad@Nomad-MacBook-Pro sysadmin-docker % cd part\ 1
+nomad@Nomad-MacBook-Pro part 1 % cd 1.7
+nomad@Nomad-MacBook-Pro 1.7 % docker build -t website .
+[+] Building 0.2s (6/6) FINISHED
+ => [internal] load build definition from Dockerfile                       0.0s
+ => => transferring dockerfile: 225B                                       0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 2B                                            0.0s
+ => [internal] load metadata for docker.io/library/ubuntu:latest           0.0s
+ => [1/2] FROM docker.io/library/ubuntu:latest                             0.0s
+ => CACHED [2/2] RUN apt-get update     && apt-get install -y curl         0.0s
+ => exporting to image                                                     0.0s
+ => => exporting layers                                                    0.0s
+ => => writing image sha256:542c0c8d55b2af2c1b50ba3385fa6f7f823b2cc9e021a  0.0s
+ => => naming to docker.io/library/website                                 0.0s
+
+Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
+nomad@Nomad-MacBook-Pro 1.7 % docker run -it website
+Input website:
+helsinki.fi
+Searching..
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>301 Moved Permanently</title>
+</head><body>
+<h1>Moved Permanently</h1>
+<p>The document has moved <a href="https://www.helsinki.fi/">here</a>.</p>
+</body></html>
+nomad@Nomad-MacBook-Pro 1.7 % 
