@@ -1,0 +1,967 @@
+nomad@Nomad-MacBook-Pro ~ % docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+79da21341086   bridge    bridge    local
+f4628aa12d4a   host      host      local
+6c0ec355c279   none      null      local
+nomad@Nomad-MacBook-Pro ~ % docker network inspect bridge
+[
+    {
+        "Name": "bridge",
+        "Id": "79da2134108662f608dcf93a1ebf043ae5062ef446a43db8a271c2624e59f0c1",
+        "Created": "2022-03-27T02:56:05.833988773Z",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": null,
+            "Config": [
+                {
+                    "Subnet": "172.17.0.0/16",
+                    "Gateway": "172.17.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {},
+        "Options": {
+            "com.docker.network.bridge.default_bridge": "true",
+            "com.docker.network.bridge.enable_icc": "true",
+            "com.docker.network.bridge.enable_ip_masquerade": "true",
+            "com.docker.network.bridge.host_binding_ipv4": "0.0.0.0",
+            "com.docker.network.bridge.name": "docker0",
+            "com.docker.network.driver.mtu": "1500"
+        },
+        "Labels": {}
+    }
+]
+nomad@Nomad-MacBook-Pro ~ % docker run --rm -d --name dummy tkurmanov/ping
+26ba87715714ea37c1acfaef8f308390d4f64f59e9338a8b4101d660d466abd2
+nomad@Nomad-MacBook-Pro ~ % docker network inspect bridge
+[
+    {
+        "Name": "bridge",
+        "Id": "79da2134108662f608dcf93a1ebf043ae5062ef446a43db8a271c2624e59f0c1",
+        "Created": "2022-03-27T02:56:05.833988773Z",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": null,
+            "Config": [
+                {
+                    "Subnet": "172.17.0.0/16",
+                    "Gateway": "172.17.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "26ba87715714ea37c1acfaef8f308390d4f64f59e9338a8b4101d660d466abd2": {
+                "Name": "dummy",
+                "EndpointID": "183f17363a8d90ceb302fc92f87cc73589e0ff95acaecc39556d4b69ba002c30",
+                "MacAddress": "02:42:ac:11:00:02",
+                "IPv4Address": "172.17.0.2/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {
+            "com.docker.network.bridge.default_bridge": "true",
+            "com.docker.network.bridge.enable_icc": "true",
+            "com.docker.network.bridge.enable_ip_masquerade": "true",
+            "com.docker.network.bridge.host_binding_ipv4": "0.0.0.0",
+            "com.docker.network.bridge.name": "docker0",
+            "com.docker.network.driver.mtu": "1500"
+        },
+        "Labels": {}
+    }
+]
+nomad@Nomad-MacBook-Pro ~ % docker run --rm -d -e PING_TARGET=172.17.0.2 --name pinger tkurmanov/ping
+b791c03d0865efb405383d365f2601e4003dc78a5bdd341597cdfeb96ccee608
+nomad@Nomad-MacBook-Pro ~ % docker ps
+CONTAINER ID   IMAGE            COMMAND                  CREATED          STATUS          PORTS     NAMES
+b791c03d0865   tkurmanov/ping   "sh -c 'ping $PING_T…"   8 seconds ago    Up 7 seconds              pinger
+26ba87715714   tkurmanov/ping   "sh -c 'ping $PING_T…"   45 seconds ago   Up 45 seconds             dummy
+nomad@Nomad-MacBook-Pro ~ % docker logs pinger
+PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
+64 bytes from 172.17.0.2: icmp_seq=1 ttl=64 time=0.229 ms
+64 bytes from 172.17.0.2: icmp_seq=2 ttl=64 time=0.177 ms
+64 bytes from 172.17.0.2: icmp_seq=3 ttl=64 time=0.129 ms
+64 bytes from 172.17.0.2: icmp_seq=4 ttl=64 time=0.183 ms
+64 bytes from 172.17.0.2: icmp_seq=5 ttl=64 time=0.445 ms
+64 bytes from 172.17.0.2: icmp_seq=6 ttl=64 time=0.153 ms
+64 bytes from 172.17.0.2: icmp_seq=7 ttl=64 time=0.175 ms
+64 bytes from 172.17.0.2: icmp_seq=8 ttl=64 time=0.178 ms
+64 bytes from 172.17.0.2: icmp_seq=9 ttl=64 time=0.174 ms
+64 bytes from 172.17.0.2: icmp_seq=10 ttl=64 time=0.399 ms
+64 bytes from 172.17.0.2: icmp_seq=11 ttl=64 time=0.176 ms
+64 bytes from 172.17.0.2: icmp_seq=12 ttl=64 time=0.177 ms
+64 bytes from 172.17.0.2: icmp_seq=13 ttl=64 time=0.180 ms
+64 bytes from 172.17.0.2: icmp_seq=14 ttl=64 time=0.179 ms
+64 bytes from 172.17.0.2: icmp_seq=15 ttl=64 time=0.180 ms
+64 bytes from 172.17.0.2: icmp_seq=16 ttl=64 time=0.175 ms
+64 bytes from 172.17.0.2: icmp_seq=17 ttl=64 time=0.177 ms
+64 bytes from 172.17.0.2: icmp_seq=18 ttl=64 time=0.182 ms
+nomad@Nomad-MacBook-Pro ~ % docker ps
+CONTAINER ID   IMAGE            COMMAND                  CREATED         STATUS         PORTS     NAMES
+b791c03d0865   tkurmanov/ping   "sh -c 'ping $PING_T…"   2 minutes ago   Up 2 minutes             pinger
+26ba87715714   tkurmanov/ping   "sh -c 'ping $PING_T…"   3 minutes ago   Up 3 minutes             dummy
+nomad@Nomad-MacBook-Pro ~ % docker stop pinger
+pinger
+nomad@Nomad-MacBook-Pro ~ % docker ps
+CONTAINER ID   IMAGE            COMMAND                  CREATED         STATUS         PORTS     NAMES
+26ba87715714   tkurmanov/ping   "sh -c 'ping $PING_T…"   5 minutes ago   Up 5 minutes             dummy
+nomad@Nomad-MacBook-Pro ~ % docker run --rm -d -e PING_TARGET=dummy --name pinger tkurmanov/ping
+bcb9ea80ddfeeadd2383bf344d9266d76c311bbc288c9ed48469872fb2e98973
+nomad@Nomad-MacBook-Pro ~ % docker ps
+CONTAINER ID   IMAGE            COMMAND                  CREATED         STATUS         PORTS     NAMES
+26ba87715714   tkurmanov/ping   "sh -c 'ping $PING_T…"   5 minutes ago   Up 5 minutes             dummy
+nomad@Nomad-MacBook-Pro ~ % docker network create skynet
+08743d54cd08debcd7948a0217c9061e6badf786e3638f8ad42112520ff29dd7
+nomad@Nomad-MacBook-Pro ~ % docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+79da21341086   bridge    bridge    local
+f4628aa12d4a   host      host      local
+6c0ec355c279   none      null      local
+08743d54cd08   skynet    bridge    local
+nomad@Nomad-MacBook-Pro ~ % docker network inspect skynet
+[
+    {
+        "Name": "skynet",
+        "Id": "08743d54cd08debcd7948a0217c9061e6badf786e3638f8ad42112520ff29dd7",
+        "Created": "2022-03-27T04:14:15.7002409Z",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.19.0.0/16",
+                    "Gateway": "172.19.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {},
+        "Options": {},
+        "Labels": {}
+    }
+]
+nomad@Nomad-MacBook-Pro ~ % docker stop dummy
+dummy
+nomad@Nomad-MacBook-Pro ~ % docker run --rm -d --network skynet --name dummy tkurmanov/ping
+32ce92e8eb147a5f4c3ed285a85acaa60263dc939b47ca1c7a5db685f29cabde
+nomad@Nomad-MacBook-Pro ~ % docker run --rm -d --network skynet -e PING_TARGET=dummy --name pinger tkurmanov/ping
+7131c1ecff8882d97afd8d5e0aa495e1443aa4ee3dbe3b22be20f1b8df87a193
+nomad@Nomad-MacBook-Pro ~ % docker logs pinger
+PING dummy (172.19.0.2) 56(84) bytes of data.
+64 bytes from dummy.skynet (172.19.0.2): icmp_seq=1 ttl=64 time=0.244 ms
+64 bytes from dummy.skynet (172.19.0.2): icmp_seq=2 ttl=64 time=0.185 ms
+64 bytes from dummy.skynet (172.19.0.2): icmp_seq=3 ttl=64 time=0.602 ms
+64 bytes from dummy.skynet (172.19.0.2): icmp_seq=4 ttl=64 time=0.188 ms
+64 bytes from dummy.skynet (172.19.0.2): icmp_seq=5 ttl=64 time=0.435 ms
+64 bytes from dummy.skynet (172.19.0.2): icmp_seq=6 ttl=64 time=0.187 ms
+64 bytes from dummy.skynet (172.19.0.2): icmp_seq=7 ttl=64 time=0.389 ms
+64 bytes from dummy.skynet (172.19.0.2): icmp_seq=8 ttl=64 time=0.183 ms
+64 bytes from dummy.skynet (172.19.0.2): icmp_seq=9 ttl=64 time=0.388 ms
+nomad@Nomad-MacBook-Pro ~ % docker stop pinger
+pinger
+nomad@Nomad-MacBook-Pro ~ % docker stop dummy
+dummy
+nomad@Nomad-MacBook-Pro ~ % docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+79da21341086   bridge    bridge    local
+f4628aa12d4a   host      host      local
+6c0ec355c279   none      null      local
+08743d54cd08   skynet    bridge    local
+nomad@Nomad-MacBook-Pro ~ % docker run --rm -d -e POSTGRES_PASSWORD=strongpass --name widgetdb --network skynet -p 5432 postgres
+ebcfb66886b6e8aed6599ec89b8266947eebe1bdc9f838c583cc47d7fc9ba43a
+nomad@Nomad-MacBook-Pro ~ % docker run --rm -d -e POSTGRES_PASSWORD=strongpass --name gadgetdb --network skynet -p 5432 postgres
+6611b191e77fa9524b31e5e42342c2a021af95540170e9fd7d9c94781c17d2be
+nomad@Nomad-MacBook-Pro ~ % docker ps
+CONTAINER ID   IMAGE      COMMAND                  CREATED          STATUS         PORTS                     NAMES
+6611b191e77f   postgres   "docker-entrypoint.s…"   2 seconds ago    Up 1 second    0.0.0.0:55267->5432/tcp   gadgetdb
+ebcfb66886b6   postgres   "docker-entrypoint.s…"   10 seconds ago   Up 9 seconds   0.0.0.0:55257->5432/tcp   widgetdb
+nomad@Nomad-MacBook-Pro ~ % docker exec -it widgetdb /bin/bash
+root@ebcfb66886b6:/# psql -U postgres
+psql (14.2 (Debian 14.2-1.pgdg110+1))
+Type "help" for help.
+
+postgres=# \q
+root@ebcfb66886b6:/# psql -U postgres -h gadgetdb
+Password for user postgres:
+psql (14.2 (Debian 14.2-1.pgdg110+1))
+Type "help" for help.
+
+postgres=# \q
+root@ebcfb66886b6:/# exit
+exit
+nomad@Nomad-MacBook-Pro ~ % docker stop widgetdb gadgetdb
+widgetdb
+gadgetdb
+nomad@Nomad-MacBook-Pro ~ % docker run --rm -d -e POSTGRES_PASSWORD=strongpass --name widgetdb --network skynet -p 5432:5432 postgres
+ce42ac586f544ff5f38752585a1902520e03b53fab1c592231ed6e4b852944e4
+nomad@Nomad-MacBook-Pro ~ % psql -U postgres -h localhost
+zsh: command not found: psql
+nomad@Nomad-MacBook-Pro ~ % brew doctor
+Please note that these warnings are just used to help the Homebrew maintainers
+with debugging if you file an issue. If everything you use Homebrew for is
+working fine: please don't worry or file an issue; just ignore this. Thanks!
+
+Warning: "config" scripts exist outside your system or Homebrew directories.
+`./configure` scripts often look for *-config scripts to determine if
+software packages are installed, and which additional flags to use when
+compiling and linking.
+
+Having additional scripts in your path can confuse software installed via
+Homebrew if the config script overrides a system or Homebrew-provided
+script of the same name. We found the following "config" scripts:
+  /Library/Frameworks/Python.framework/Versions/3.10/bin/python3.10-config
+  /Library/Frameworks/Python.framework/Versions/3.10/bin/python3-config
+
+Warning: Unbrewed header files were found in /usr/local/include.
+If you didn't put them there on purpose they could cause problems when
+building Homebrew formulae, and may need to be deleted.
+
+Unexpected header files:
+  /usr/local/include/node/cppgc/common.h
+  /usr/local/include/node/js_native_api.h
+  /usr/local/include/node/js_native_api_types.h
+  /usr/local/include/node/libplatform/libplatform-export.h
+  /usr/local/include/node/libplatform/libplatform.h
+  /usr/local/include/node/libplatform/v8-tracing.h
+  /usr/local/include/node/node.h
+  /usr/local/include/node/node_api.h
+  /usr/local/include/node/node_api_types.h
+  /usr/local/include/node/node_buffer.h
+  /usr/local/include/node/node_object_wrap.h
+  /usr/local/include/node/node_version.h
+  /usr/local/include/node/openssl/aes.h
+  /usr/local/include/node/openssl/archs/BSD-x86/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/BSD-x86/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/BSD-x86/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/BSD-x86/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/BSD-x86/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/BSD-x86/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/BSD-x86/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/BSD-x86/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/BSD-x86/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/BSD-x86/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/BSD-x86/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/BSD-x86/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/BSD-x86/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/BSD-x86/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/BSD-x86/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/BSD-x86_64/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/BSD-x86_64/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/BSD-x86_64/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/BSD-x86_64/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/BSD-x86_64/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/BSD-x86_64/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/BSD-x86_64/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/BSD-x86_64/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/BSD-x86_64/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/BSD-x86_64/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/BSD-x86_64/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/BSD-x86_64/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/BSD-x86_64/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/BSD-x86_64/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/BSD-x86_64/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/VC-WIN32/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/VC-WIN32/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/VC-WIN32/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/VC-WIN32/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/VC-WIN32/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/VC-WIN32/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/VC-WIN32/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/VC-WIN32/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/VC-WIN32/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/VC-WIN32/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/VC-WIN32/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/VC-WIN32/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/VC-WIN32/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/VC-WIN32/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/VC-WIN32/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/VC-WIN64-ARM/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/VC-WIN64-ARM/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/VC-WIN64-ARM/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/VC-WIN64-ARM/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/VC-WIN64-ARM/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/VC-WIN64A/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/VC-WIN64A/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/VC-WIN64A/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/VC-WIN64A/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/VC-WIN64A/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/VC-WIN64A/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/VC-WIN64A/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/VC-WIN64A/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/VC-WIN64A/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/VC-WIN64A/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/VC-WIN64A/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/VC-WIN64A/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/VC-WIN64A/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/VC-WIN64A/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/VC-WIN64A/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/aix-gcc/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/aix-gcc/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/aix-gcc/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/aix-gcc/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/aix-gcc/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/aix-gcc/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/aix-gcc/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/aix-gcc/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/aix-gcc/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/aix-gcc/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/aix-gcc/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/aix-gcc/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/aix-gcc/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/aix-gcc/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/aix-gcc/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/aix64-gcc/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/aix64-gcc/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/aix64-gcc/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/aix64-gcc/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/aix64-gcc/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/aix64-gcc/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/aix64-gcc/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/aix64-gcc/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/aix64-gcc/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/aix64-gcc/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/aix64-gcc/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/aix64-gcc/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/aix64-gcc/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/aix64-gcc/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/aix64-gcc/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/darwin-i386-cc/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/darwin-i386-cc/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/darwin-i386-cc/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/darwin-i386-cc/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/darwin-i386-cc/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/darwin-i386-cc/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/darwin-i386-cc/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/darwin-i386-cc/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/darwin-i386-cc/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/darwin-i386-cc/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/darwin-i386-cc/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/darwin-i386-cc/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/darwin-i386-cc/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/darwin-i386-cc/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/darwin-i386-cc/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/darwin64-arm64-cc/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/darwin64-arm64-cc/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/darwin64-arm64-cc/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/darwin64-arm64-cc/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/darwin64-arm64-cc/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/darwin64-arm64-cc/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/darwin64-arm64-cc/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/darwin64-arm64-cc/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/darwin64-arm64-cc/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/darwin64-arm64-cc/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/darwin64-arm64-cc/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/darwin64-arm64-cc/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/darwin64-arm64-cc/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/darwin64-arm64-cc/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/darwin64-arm64-cc/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/darwin64-x86_64-cc/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/darwin64-x86_64-cc/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/darwin64-x86_64-cc/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/darwin64-x86_64-cc/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/darwin64-x86_64-cc/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/darwin64-x86_64-cc/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/darwin64-x86_64-cc/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/darwin64-x86_64-cc/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/darwin64-x86_64-cc/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/darwin64-x86_64-cc/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/darwin64-x86_64-cc/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/darwin64-x86_64-cc/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/darwin64-x86_64-cc/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/darwin64-x86_64-cc/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/darwin64-x86_64-cc/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-aarch64/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-aarch64/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-aarch64/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-aarch64/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-aarch64/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-aarch64/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-aarch64/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-aarch64/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-aarch64/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-aarch64/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-aarch64/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-aarch64/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-aarch64/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-aarch64/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-aarch64/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-armv4/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-armv4/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-armv4/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-armv4/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-armv4/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-armv4/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-armv4/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-armv4/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-armv4/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-armv4/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-armv4/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-armv4/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-armv4/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-armv4/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-armv4/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-elf/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-elf/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-elf/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-elf/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-elf/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-elf/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-elf/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-elf/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-elf/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-elf/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-elf/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-elf/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-elf/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-elf/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-elf/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-ppc/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-ppc/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-ppc/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-ppc/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-ppc/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-ppc/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-ppc/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-ppc/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-ppc/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-ppc/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-ppc/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-ppc/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-ppc/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-ppc/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-ppc/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-ppc64/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-ppc64/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-ppc64/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-ppc64le/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64le/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64le/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64le/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64le/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-ppc64le/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64le/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64le/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64le/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64le/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-ppc64le/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64le/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64le/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64le/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-ppc64le/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-x32/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-x32/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-x32/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-x32/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-x32/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-x32/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-x32/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-x32/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-x32/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-x32/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-x32/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-x32/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-x32/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-x32/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-x32/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-x86_64/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-x86_64/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-x86_64/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-x86_64/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-x86_64/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-x86_64/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-x86_64/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-x86_64/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-x86_64/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-x86_64/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/linux-x86_64/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux-x86_64/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux-x86_64/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux-x86_64/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux-x86_64/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux32-s390x/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux32-s390x/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux32-s390x/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux32-s390x/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux32-s390x/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux32-s390x/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux32-s390x/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux32-s390x/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux32-s390x/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux32-s390x/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/linux32-s390x/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux32-s390x/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux32-s390x/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux32-s390x/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux32-s390x/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux64-mips64/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux64-mips64/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux64-mips64/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux64-mips64/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux64-mips64/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux64-mips64/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux64-mips64/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux64-mips64/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux64-mips64/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux64-mips64/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/linux64-mips64/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux64-mips64/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux64-mips64/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux64-mips64/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux64-mips64/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux64-riscv64/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux64-riscv64/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux64-riscv64/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux64-riscv64/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux64-riscv64/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux64-s390x/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux64-s390x/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux64-s390x/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux64-s390x/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux64-s390x/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/linux64-s390x/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux64-s390x/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux64-s390x/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux64-s390x/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux64-s390x/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/linux64-s390x/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/linux64-s390x/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/linux64-s390x/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/linux64-s390x/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/linux64-s390x/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/solaris-x86-gcc/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/solaris-x86-gcc/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/solaris-x86-gcc/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/solaris-x86-gcc/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/solaris-x86-gcc/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/solaris-x86-gcc/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/solaris-x86-gcc/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/solaris-x86-gcc/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/solaris-x86-gcc/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/solaris-x86-gcc/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/solaris-x86-gcc/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/solaris-x86-gcc/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/solaris-x86-gcc/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/solaris-x86-gcc/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/solaris-x86-gcc/no-asm/include/progs.h
+  /usr/local/include/node/openssl/archs/solaris64-x86_64-gcc/asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/solaris64-x86_64-gcc/asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/solaris64-x86_64-gcc/asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/solaris64-x86_64-gcc/asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/solaris64-x86_64-gcc/asm/include/progs.h
+  /usr/local/include/node/openssl/archs/solaris64-x86_64-gcc/asm_avx2/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/solaris64-x86_64-gcc/asm_avx2/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/solaris64-x86_64-gcc/asm_avx2/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/solaris64-x86_64-gcc/asm_avx2/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/solaris64-x86_64-gcc/asm_avx2/include/progs.h
+  /usr/local/include/node/openssl/archs/solaris64-x86_64-gcc/no-asm/crypto/buildinf.h
+  /usr/local/include/node/openssl/archs/solaris64-x86_64-gcc/no-asm/crypto/include/internal/bn_conf.h
+  /usr/local/include/node/openssl/archs/solaris64-x86_64-gcc/no-asm/crypto/include/internal/dso_conf.h
+  /usr/local/include/node/openssl/archs/solaris64-x86_64-gcc/no-asm/include/openssl/opensslconf.h
+  /usr/local/include/node/openssl/archs/solaris64-x86_64-gcc/no-asm/include/progs.h
+  /usr/local/include/node/openssl/asn1.h
+  /usr/local/include/node/openssl/asn1_mac.h
+  /usr/local/include/node/openssl/asn1err.h
+  /usr/local/include/node/openssl/asn1t.h
+  /usr/local/include/node/openssl/async.h
+  /usr/local/include/node/openssl/asyncerr.h
+  /usr/local/include/node/openssl/bio.h
+  /usr/local/include/node/openssl/bioerr.h
+  /usr/local/include/node/openssl/blowfish.h
+  /usr/local/include/node/openssl/bn.h
+  /usr/local/include/node/openssl/bn_conf.h
+  /usr/local/include/node/openssl/bn_conf_asm.h
+  /usr/local/include/node/openssl/bn_conf_no-asm.h
+  /usr/local/include/node/openssl/bnerr.h
+  /usr/local/include/node/openssl/buffer.h
+  /usr/local/include/node/openssl/buffererr.h
+  /usr/local/include/node/openssl/camellia.h
+  /usr/local/include/node/openssl/cast.h
+  /usr/local/include/node/openssl/cmac.h
+  /usr/local/include/node/openssl/cms.h
+  /usr/local/include/node/openssl/cmserr.h
+  /usr/local/include/node/openssl/comp.h
+  /usr/local/include/node/openssl/comperr.h
+  /usr/local/include/node/openssl/conf.h
+  /usr/local/include/node/openssl/conf_api.h
+  /usr/local/include/node/openssl/conferr.h
+  /usr/local/include/node/openssl/crypto.h
+  /usr/local/include/node/openssl/cryptoerr.h
+  /usr/local/include/node/openssl/ct.h
+  /usr/local/include/node/openssl/cterr.h
+  /usr/local/include/node/openssl/des.h
+  /usr/local/include/node/openssl/dh.h
+  /usr/local/include/node/openssl/dherr.h
+  /usr/local/include/node/openssl/dsa.h
+  /usr/local/include/node/openssl/dsaerr.h
+  /usr/local/include/node/openssl/dso_conf.h
+  /usr/local/include/node/openssl/dso_conf_asm.h
+  /usr/local/include/node/openssl/dso_conf_no-asm.h
+  /usr/local/include/node/openssl/dtls1.h
+  /usr/local/include/node/openssl/e_os2.h
+  /usr/local/include/node/openssl/ebcdic.h
+  /usr/local/include/node/openssl/ec.h
+  /usr/local/include/node/openssl/ecdh.h
+  /usr/local/include/node/openssl/ecdsa.h
+  /usr/local/include/node/openssl/ecerr.h
+  /usr/local/include/node/openssl/engine.h
+  /usr/local/include/node/openssl/engineerr.h
+  /usr/local/include/node/openssl/err.h
+  /usr/local/include/node/openssl/evp.h
+  /usr/local/include/node/openssl/evperr.h
+  /usr/local/include/node/openssl/hmac.h
+  /usr/local/include/node/openssl/idea.h
+  /usr/local/include/node/openssl/kdf.h
+  /usr/local/include/node/openssl/kdferr.h
+  /usr/local/include/node/openssl/lhash.h
+  /usr/local/include/node/openssl/md2.h
+  /usr/local/include/node/openssl/md4.h
+  /usr/local/include/node/openssl/md5.h
+  /usr/local/include/node/openssl/mdc2.h
+  /usr/local/include/node/openssl/modes.h
+  /usr/local/include/node/openssl/obj_mac.h
+  /usr/local/include/node/openssl/objects.h
+  /usr/local/include/node/openssl/objectserr.h
+  /usr/local/include/node/openssl/ocsp.h
+  /usr/local/include/node/openssl/ocsperr.h
+  /usr/local/include/node/openssl/opensslconf.h
+  /usr/local/include/node/openssl/opensslconf_asm.h
+  /usr/local/include/node/openssl/opensslconf_no-asm.h
+  /usr/local/include/node/openssl/opensslv.h
+  /usr/local/include/node/openssl/ossl_typ.h
+  /usr/local/include/node/openssl/pem.h
+  /usr/local/include/node/openssl/pem2.h
+  /usr/local/include/node/openssl/pemerr.h
+  /usr/local/include/node/openssl/pkcs12.h
+  /usr/local/include/node/openssl/pkcs12err.h
+  /usr/local/include/node/openssl/pkcs7.h
+  /usr/local/include/node/openssl/pkcs7err.h
+  /usr/local/include/node/openssl/rand.h
+  /usr/local/include/node/openssl/rand_drbg.h
+  /usr/local/include/node/openssl/randerr.h
+  /usr/local/include/node/openssl/rc2.h
+  /usr/local/include/node/openssl/rc4.h
+  /usr/local/include/node/openssl/rc5.h
+  /usr/local/include/node/openssl/ripemd.h
+  /usr/local/include/node/openssl/rsa.h
+  /usr/local/include/node/openssl/rsaerr.h
+  /usr/local/include/node/openssl/safestack.h
+  /usr/local/include/node/openssl/seed.h
+  /usr/local/include/node/openssl/sha.h
+  /usr/local/include/node/openssl/srp.h
+  /usr/local/include/node/openssl/srtp.h
+  /usr/local/include/node/openssl/ssl.h
+  /usr/local/include/node/openssl/ssl2.h
+  /usr/local/include/node/openssl/ssl3.h
+  /usr/local/include/node/openssl/sslerr.h
+  /usr/local/include/node/openssl/stack.h
+  /usr/local/include/node/openssl/store.h
+  /usr/local/include/node/openssl/storeerr.h
+  /usr/local/include/node/openssl/symhacks.h
+  /usr/local/include/node/openssl/tls1.h
+  /usr/local/include/node/openssl/ts.h
+  /usr/local/include/node/openssl/tserr.h
+  /usr/local/include/node/openssl/txt_db.h
+  /usr/local/include/node/openssl/ui.h
+  /usr/local/include/node/openssl/uierr.h
+  /usr/local/include/node/openssl/whrlpool.h
+  /usr/local/include/node/openssl/x509.h
+  /usr/local/include/node/openssl/x509_vfy.h
+  /usr/local/include/node/openssl/x509err.h
+  /usr/local/include/node/openssl/x509v3.h
+  /usr/local/include/node/openssl/x509v3err.h
+  /usr/local/include/node/uv.h
+  /usr/local/include/node/uv/aix.h
+  /usr/local/include/node/uv/android-ifaddrs.h
+  /usr/local/include/node/uv/bsd.h
+  /usr/local/include/node/uv/darwin.h
+  /usr/local/include/node/uv/errno.h
+  /usr/local/include/node/uv/linux.h
+  /usr/local/include/node/uv/os390.h
+  /usr/local/include/node/uv/posix.h
+  /usr/local/include/node/uv/stdint-msvc2008.h
+  /usr/local/include/node/uv/sunos.h
+  /usr/local/include/node/uv/threadpool.h
+  /usr/local/include/node/uv/tree.h
+  /usr/local/include/node/uv/unix.h
+  /usr/local/include/node/uv/version.h
+  /usr/local/include/node/uv/win.h
+  /usr/local/include/node/v8-internal.h
+  /usr/local/include/node/v8-platform.h
+  /usr/local/include/node/v8-profiler.h
+  /usr/local/include/node/v8-version.h
+  /usr/local/include/node/v8.h
+  /usr/local/include/node/v8config.h
+  /usr/local/include/node/zconf.h
+  /usr/local/include/node/zlib.h
+
+Warning: You have unlinked kegs in your Cellar.
+Leaving kegs unlinked can lead to build-trouble and cause formulae that depend on
+those kegs to fail to run properly once built. Run `brew link` on these:
+  node
+
+Warning: Homebrew's "sbin" was not found in your PATH but you have installed
+formulae that put executables in /usr/local/sbin.
+Consider setting your PATH for example like so:
+  echo 'export PATH="/usr/local/sbin:$PATH"' >> ~/.zshrc
+nomad@Nomad-MacBook-Pro ~ % brew update
+Already up-to-date.
+nomad@Nomad-MacBook-Pro ~ % brew install postgres
+==> Downloading https://ghcr.io/v2/homebrew/core/icu4c/manifests/70.1
+######################################################################## 100.0%
+==> Downloading https://ghcr.io/v2/homebrew/core/icu4c/blobs/sha256:321592eb1aebb7c6edc7a5e91393598725ebcc63362f059072b993c27f3bf979
+==> Downloading from https://pkg-containers.githubusercontent.com/ghcr1/blobs/sha256:321592eb1aebb7c6edc7a5e91393598725ebcc63362f059072b993c27f3bf979?se=2022-03-27T05%3A
+######################################################################## 100.0%
+==> Downloading https://ghcr.io/v2/homebrew/core/ca-certificates/manifests/2022-03-18
+######################################################################## 100.0%
+==> Downloading https://ghcr.io/v2/homebrew/core/ca-certificates/blobs/sha256:aa33f961541d9d09b503be6df89bed5834eec7bb67af24080f12625a82dbdf8d
+==> Downloading from https://pkg-containers.githubusercontent.com/ghcr1/blobs/sha256:aa33f961541d9d09b503be6df89bed5834eec7bb67af24080f12625a82dbdf8d?se=2022-03-27T05%3A
+######################################################################## 100.0%
+==> Downloading https://ghcr.io/v2/homebrew/core/openssl/1.1/manifests/1.1.1n
+######################################################################## 100.0%
+==> Downloading https://ghcr.io/v2/homebrew/core/openssl/1.1/blobs/sha256:b22f50654fe0262e81493dfd38e18d2f146317c78198bea1a0c3c7c2f0dc983c
+==> Downloading from https://pkg-containers.githubusercontent.com/ghcr1/blobs/sha256:b22f50654fe0262e81493dfd38e18d2f146317c78198bea1a0c3c7c2f0dc983c?se=2022-03-27T05%3A
+######################################################################## 100.0%
+==> Downloading https://ghcr.io/v2/homebrew/core/krb5/manifests/1.19.3
+######################################################################## 100.0%
+==> Downloading https://ghcr.io/v2/homebrew/core/krb5/blobs/sha256:8d46fa7a28cdb0090702246c7a3053f3a8aca434300e2ac78b6482cb6a2f9d57
+==> Downloading from https://pkg-containers.githubusercontent.com/ghcr1/blobs/sha256:8d46fa7a28cdb0090702246c7a3053f3a8aca434300e2ac78b6482cb6a2f9d57?se=2022-03-27T05%3A
+######################################################################## 100.0%
+==> Downloading https://ghcr.io/v2/homebrew/core/readline/manifests/8.1.2
+######################################################################## 100.0%
+==> Downloading https://ghcr.io/v2/homebrew/core/readline/blobs/sha256:976185ec243284d74eb8b9c554d944cbc0208c26495193bcd28fdf12a08f134e
+==> Downloading from https://pkg-containers.githubusercontent.com/ghcr1/blobs/sha256:976185ec243284d74eb8b9c554d944cbc0208c26495193bcd28fdf12a08f134e?se=2022-03-27T05%3A
+######################################################################## 100.0%
+==> Downloading https://ghcr.io/v2/homebrew/core/postgresql/manifests/14.2_1
+######################################################################## 100.0%
+==> Downloading https://ghcr.io/v2/homebrew/core/postgresql/blobs/sha256:e646d3d891ba61c6779aeffbc8abf9d7590df75c0a61b142766863b0df7403c3
+==> Downloading from https://pkg-containers.githubusercontent.com/ghcr1/blobs/sha256:e646d3d891ba61c6779aeffbc8abf9d7590df75c0a61b142766863b0df7403c3?se=2022-03-27T05%3A
+######################################################################## 100.0%
+==> Installing dependencies for postgresql: icu4c, ca-certificates, openssl@1.1, krb5 and readline
+==> Installing postgresql dependency: icu4c
+==> Pouring icu4c--70.1.monterey.bottle.tar.gz
+🍺  /usr/local/Cellar/icu4c/70.1: 261 files, 74.4MB
+==> Installing postgresql dependency: ca-certificates
+==> Pouring ca-certificates--2022-03-18.all.bottle.tar.gz
+==> Regenerating CA certificate bundle from keychain, this may take a while...
+🍺  /usr/local/Cellar/ca-certificates/2022-03-18: 3 files, 211.5KB
+==> Installing postgresql dependency: openssl@1.1
+==> Pouring openssl@1.1--1.1.1n.monterey.bottle.tar.gz
+🍺  /usr/local/Cellar/openssl@1.1/1.1.1n: 8,089 files, 18.5MB
+==> Installing postgresql dependency: krb5
+==> Pouring krb5--1.19.3.monterey.bottle.tar.gz
+🍺  /usr/local/Cellar/krb5/1.19.3: 162 files, 5.1MB
+==> Installing postgresql dependency: readline
+==> Pouring readline--8.1.2.monterey.bottle.tar.gz
+🍺  /usr/local/Cellar/readline/8.1.2: 48 files, 1.6MB
+==> Installing postgresql
+==> Pouring postgresql--14.2_1.monterey.bottle.tar.gz
+==> /usr/local/Cellar/postgresql/14.2_1/bin/initdb --locale=C -E UTF-8 /usr/local/var/postgres
+==> Caveats
+To migrate existing data from a previous major version of PostgreSQL run:
+  brew postgresql-upgrade-database
+
+This formula has created a default database cluster with:
+  initdb --locale=C -E UTF-8 /usr/local/var/postgres
+For more details, read:
+  https://www.postgresql.org/docs/14/app-initdb.html
+
+To restart postgresql after an upgrade:
+  brew services restart postgresql
+Or, if you don't want/need a background service you can just run:
+  /usr/local/opt/postgresql/bin/postgres -D /usr/local/var/postgres
+==> Summary
+🍺  /usr/local/Cellar/postgresql/14.2_1: 3,305 files, 44.3MB
+==> `brew cleanup` has not been run in the last 30 days, running now...
+Disable this behaviour by setting HOMEBREW_NO_INSTALL_CLEANUP.
+Hide these hints with HOMEBREW_NO_ENV_HINTS (see `man brew`).
+Removing: /Users/nomad/Library/Caches/Homebrew/angular-cli--13.1.2... (6.9MB)
+Removing: /usr/local/Cellar/ca-certificates/2021-10-26... (3 files, 208.5KB)
+Removing: /Users/nomad/Library/Caches/Homebrew/ca-certificates--2021-10-26... (117.6KB)
+Removing: /Users/nomad/Library/Caches/Homebrew/cmake--3.22.1... (15.2MB)
+Removing: /usr/local/Cellar/icu4c/69.1... (259 files, 72.8MB)
+Removing: /Users/nomad/Library/Caches/Homebrew/icu4c--69.1... (27.2MB)
+Removing: /Users/nomad/Library/Caches/Homebrew/libnghttp2--1.46.0... (199.8KB)
+Removing: /Users/nomad/Library/Caches/Homebrew/libomp--13.0.0... (525.6KB)
+Removing: /Users/nomad/Library/Caches/Homebrew/libusb--1.0.24... (159.7KB)
+Removing: /Users/nomad/Library/Caches/Homebrew/libuv--1.42.0... (1.3MB)
+Removing: /Users/nomad/Library/Caches/Homebrew/node--17.3.0... (12.2MB)
+Removing: /usr/local/Cellar/openssl@1.1/1.1.1m... (8,081 files, 18.5MB)
+Removing: /Users/nomad/Library/Caches/Homebrew/openssl@1.1--1.1.1m... (5.2MB)
+Removing: /Users/nomad/Library/Caches/Homebrew/readline--8.1.1... (535.3KB)
+Removing: /Users/nomad/Library/Caches/Homebrew/sqlite--3.37.0... (2MB)
+Removing: /Users/nomad/Library/Caches/Homebrew/python@3.10--3.10.1... (14MB)
+Removing: /Users/nomad/Library/Caches/Homebrew/gdbm--1.22... (258.0KB)
+Removing: /Users/nomad/Library/Logs/Homebrew/pkg-config... (64B)
+Removing: /Users/nomad/Library/Logs/Homebrew/cmake... (64B)
+Removing: /Users/nomad/Library/Logs/Homebrew/libuv... (64B)
+Removing: /Users/nomad/Library/Logs/Homebrew/brotli... (64B)
+Removing: /Users/nomad/Library/Logs/Homebrew/icu4c... (64B)
+Removing: /Users/nomad/Library/Logs/Homebrew/libuvc... (64B)
+Removing: /Users/nomad/Library/Logs/Homebrew/c-ares... (64B)
+Removing: /Users/nomad/Library/Logs/Homebrew/libnghttp2... (64B)
+Removing: /Users/nomad/Library/Logs/Homebrew/ca-certificates... (64B)
+Removing: /Users/nomad/Library/Logs/Homebrew/openssl@1.1... (64B)
+Removing: /Users/nomad/Library/Logs/Homebrew/glfw... (64B)
+Removing: /Users/nomad/Library/Logs/Homebrew/node... (64B)
+Removing: /Users/nomad/Library/Logs/Homebrew/libomp... (64B)
+Removing: /Users/nomad/Library/Logs/Homebrew/angular-cli... (64B)
+Removing: /Users/nomad/Library/Logs/Homebrew/libusb... (64B)
+Pruned 0 symbolic links and 9 directories from /usr/local
+==> Upgrading 2 dependents of upgraded formulae:
+Disable this behaviour by setting HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK.
+Hide these hints with HOMEBREW_NO_ENV_HINTS (see `man brew`).
+angular-cli 13.1.2 -> 13.3.0, node 17.3.0 -> 17.8.0
+==> Downloading https://ghcr.io/v2/homebrew/core/libnghttp2/manifests/1.47.0
+######################################################################## 100.0%
+==> Downloading https://ghcr.io/v2/homebrew/core/libnghttp2/blobs/sha256:71cc16ddaac1f8eab66b1ca3b910e7c1369f38daf269aba7e8a65ff7f3451a8f
+==> Downloading from https://pkg-containers.githubusercontent.com/ghcr1/blobs/sha256:71cc16ddaac1f8eab66b1ca3b910e7c1369f38daf269aba7e8a65ff7f3451a8f?se=2022-03-27T05%3A
+######################################################################## 100.0%
+==> Downloading https://ghcr.io/v2/homebrew/core/libuv/manifests/1.44.1
+######################################################################## 100.0%
+==> Downloading https://ghcr.io/v2/homebrew/core/libuv/blobs/sha256:dc579bb4254d8324ffe808d30a5fd37d5765b7f35519fa20aac07190116696d9
+==> Downloading from https://pkg-containers.githubusercontent.com/ghcr1/blobs/sha256:dc579bb4254d8324ffe808d30a5fd37d5765b7f35519fa20aac07190116696d9?se=2022-03-27T05%3A
+######################################################################## 100.0%
+==> Downloading https://ghcr.io/v2/homebrew/core/node/manifests/17.8.0
+######################################################################## 100.0%
+==> Downloading https://ghcr.io/v2/homebrew/core/node/blobs/sha256:39d39e0ebe45654a49de673e19e65b837e0f44851329ad5171b8a7f5cefbac72
+==> Downloading from https://pkg-containers.githubusercontent.com/ghcr1/blobs/sha256:39d39e0ebe45654a49de673e19e65b837e0f44851329ad5171b8a7f5cefbac72?se=2022-03-27T05%3A
+######################################################################## 100.0%
+==> Downloading https://ghcr.io/v2/homebrew/core/angular-cli/manifests/13.3.0
+######################################################################## 100.0%
+==> Downloading https://ghcr.io/v2/homebrew/core/angular-cli/blobs/sha256:8dd9d712486b9b4593b57c5f46ab3353cae4b4bba6d87a1dfda16585704101da
+==> Downloading from https://pkg-containers.githubusercontent.com/ghcr1/blobs/sha256:8dd9d712486b9b4593b57c5f46ab3353cae4b4bba6d87a1dfda16585704101da?se=2022-03-27T05%3A
+######################################################################## 100.0%
+==> Upgrading node
+  17.3.0 -> 17.8.0
+
+==> Installing dependencies for node: libnghttp2 and libuv
+==> Installing node dependency: libnghttp2
+==> Pouring libnghttp2--1.47.0.monterey.bottle.tar.gz
+🍺  /usr/local/Cellar/libnghttp2/1.47.0: 13 files, 678.2KB
+==> Installing node dependency: libuv
+==> Pouring libuv--1.44.1.monterey.bottle.tar.gz
+🍺  /usr/local/Cellar/libuv/1.44.1: 49 files, 3.5MB
+==> Installing node
+==> Pouring node--17.8.0.monterey.bottle.tar.gz
+Error: The `brew link` step did not complete successfully
+The formula built, but is not symlinked into /usr/local
+Could not symlink bin/node
+Target /usr/local/bin/node
+already exists. You may want to remove it:
+  rm '/usr/local/bin/node'
+
+To force the link and overwrite all conflicting files:
+  brew link --overwrite node
+
+To list all files that would be deleted:
+  brew link --overwrite --dry-run node
+
+Possible conflicting files are:
+/usr/local/bin/node
+/usr/local/include/node/common.gypi
+/usr/local/include/node/config.gypi
+/usr/local/include/node/cppgc/common.h
+/usr/local/include/node/js_native_api.h
+/usr/local/include/node/js_native_api_types.h
+/usr/local/include/node/libplatform/libplatform-export.h
+/usr/local/include/node/libplatform/libplatform.h
+/usr/local/include/node/libplatform/v8-tracing.h
+/usr/local/include/node/node.h
+/usr/local/include/node/node_api.h
+/usr/local/include/node/node_api_types.h
+/usr/local/include/node/node_buffer.h
+/usr/local/include/node/node_object_wrap.h
+/usr/local/include/node/node_version.h
+/usr/local/include/node/v8-internal.h
+/usr/local/include/node/v8-platform.h
+/usr/local/include/node/v8-profiler.h
+/usr/local/include/node/v8-version.h
+/usr/local/include/node/v8.h
+/usr/local/include/node/v8config.h
+/usr/local/share/doc/node/gdbinit
+/usr/local/share/doc/node/lldb_commands.py
+/usr/local/share/man/man1/node.1
+/usr/local/share/systemtap/tapset/node.stp
+/usr/local/lib/dtrace/node.d
+==> Summary
+🍺  /usr/local/Cellar/node/17.8.0: 1,932 files, 45.9MB
+==> Running `brew cleanup node`...
+Removing: /usr/local/Cellar/node/17.3.0... (1,976 files, 45.8MB)
+==> Upgrading angular-cli
+  13.1.2 -> 13.3.0
+
+==> Pouring angular-cli--13.3.0.monterey.bottle.tar.gz
+🍺  /usr/local/Cellar/angular-cli/13.3.0: 10,015 files, 31.9MB
+==> Running `brew cleanup angular-cli`...
+Removing: /usr/local/Cellar/angular-cli/13.1.2... (9,932 files, 31.4MB)
+==> Checking for dependents of upgraded formulae...
+==> No broken dependents found!
+==> Caveats
+==> postgresql
+To migrate existing data from a previous major version of PostgreSQL run:
+  brew postgresql-upgrade-database
+
+This formula has created a default database cluster with:
+  initdb --locale=C -E UTF-8 /usr/local/var/postgres
+For more details, read:
+  https://www.postgresql.org/docs/14/app-initdb.html
+
+To restart postgresql after an upgrade:
+  brew services restart postgresql
+Or, if you don't want/need a background service you can just run:
+  /usr/local/opt/postgresql/bin/postgres -D /usr/local/var/postgres
+nomad@Nomad-MacBook-Pro ~ % createdb nomad
+nomad@Nomad-MacBook-Pro ~ % psql
+psql (14.2)
+Type "help" for help.
+
+nomad=# \q
+nomad@Nomad-MacBook-Pro ~ % createuser -s postgres
+nomad@Nomad-MacBook-Pro ~ % psql -U postgres -h localhost
+psql (14.2)
+Type "help" for help.
+
+postgres=# \q
+nomad@Nomad-MacBook-Pro ~ % docker stop widgetdb
+widgetdb
+nomad@Nomad-MacBook-Pro ~ %

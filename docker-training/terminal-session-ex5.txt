@@ -1,0 +1,69 @@
+nomad@Nomad-MacBook-Pro ~ % docker run --rm -d --name apache -p 80:80 httpd:2.4
+f7ba0b5cec262be99284508dd5b5e9b43c64d11bd9d06ae479c814a328e2c4bf
+nomad@Nomad-MacBook-Pro ~ % curl localhost
+<html><body><h1>It works!</h1></body></html>
+nomad@Nomad-MacBook-Pro ~ % docker cp index.html apache:/usr/local/apache2/htdocs/
+nomad@Nomad-MacBook-Pro ~ % curl localhost
+<html><body><h1>It works in Docker!</h1></body></html
+nomad@Nomad-MacBook-Pro ~ % docker stop apache
+apache
+nomad@Nomad-MacBook-Pro ~ % docker run --rm -d --name apache -p 80:80 httpd:2.4
+acb41dedba6e722c941072b7bcec9d8dd242a0afb98fce1387eefac9ca364603
+nomad@Nomad-MacBook-Pro ~ % curl localhost
+<html><body><h1>It works!</h1></body></html>
+nomad@Nomad-MacBook-Pro ~ % docker volume ls
+DRIVER    VOLUME NAME
+local     1b934a87c8b2dc7d31dafc1deb7d40e18a3c5e6133d48812d9fd9b3e81a0bdd1
+local     1c950bddb40f6849b85821937c1000a80d77b267e3cb503ddd66461eac8e19b9
+local     11e4d5467c96d523d489257f9059a4982cf9a272f3cc8d013104d33589c3f48f
+local     55cf8a7554f70c3f8b5aa54395981641951d433aef2d4018db7473e2f2943979
+local     7691c1eb443f4d88d638d6e4d42e93e937f9b9b2ee384015b0ec04bcd7939c16
+local     d2788a72954e1be54687c9b10b5810dbeb23f6e4c624e1554a584c931672379f
+nomad@Nomad-MacBook-Pro ~ % docker volume create myvolume
+myvolume
+nomad@Nomad-MacBook-Pro ~ % docker volume ls
+DRIVER    VOLUME NAME
+local     1b934a87c8b2dc7d31dafc1deb7d40e18a3c5e6133d48812d9fd9b3e81a0bdd1
+local     1c950bddb40f6849b85821937c1000a80d77b267e3cb503ddd66461eac8e19b9
+local     11e4d5467c96d523d489257f9059a4982cf9a272f3cc8d013104d33589c3f48f
+local     55cf8a7554f70c3f8b5aa54395981641951d433aef2d4018db7473e2f2943979
+local     7691c1eb443f4d88d638d6e4d42e93e937f9b9b2ee384015b0ec04bcd7939c16
+local     d2788a72954e1be54687c9b10b5810dbeb23f6e4c624e1554a584c931672379f
+local     myvolume
+nomad@Nomad-MacBook-Pro ~ % docker volume rm myvolume
+myvolume
+nomad@Nomad-MacBook-Pro ~ % docker volume ls
+DRIVER    VOLUME NAME
+local     1b934a87c8b2dc7d31dafc1deb7d40e18a3c5e6133d48812d9fd9b3e81a0bdd1
+local     1c950bddb40f6849b85821937c1000a80d77b267e3cb503ddd66461eac8e19b9
+local     11e4d5467c96d523d489257f9059a4982cf9a272f3cc8d013104d33589c3f48f
+local     55cf8a7554f70c3f8b5aa54395981641951d433aef2d4018db7473e2f2943979
+local     7691c1eb443f4d88d638d6e4d42e93e937f9b9b2ee384015b0ec04bcd7939c16
+local     d2788a72954e1be54687c9b10b5810dbeb23f6e4c624e1554a584c931672379f
+nomad@Nomad-MacBook-Pro ~ % docker volume create httpd_htdocs
+httpd_htdocs
+nomad@Nomad-MacBook-Pro ~ % docker stop apache
+apache
+nomad@Nomad-MacBook-Pro ~ % docker run --rm -d --name apache -p 80:80 -v httpd_htdocs:/usr/local/apache2/htdocs/ httpd:2.4
+b8f70c773270c78dbe15739ddfee32bc2f43dfaad0e0d5882d1ae0f3f01f8323
+nomad@Nomad-MacBook-Pro ~ % docker cp index.html apache:/usr/local/apache2/htdocs/
+nomad@Nomad-MacBook-Pro ~ % curl localhost
+<html><body><h1>It works in Docker!</h1></body></html
+nomad@Nomad-MacBook-Pro ~ % docker stop apache
+apache
+nomad@Nomad-MacBook-Pro ~ % docker run --rm -d --name apache -p 80:80 -v httpd_htdocs:/usr/local/apache2/htdocs/ httpd:2.4
+e34506dfb61997ad3602582d5340666a088055603b21ceb1cc786cfee9e8dc09
+nomad@Nomad-MacBook-Pro ~ % curl localhost
+<html><body><h1>It works in Docker!</h1></body></html
+nomad@Nomad-MacBook-Pro ~ % docker stop apache
+apache
+nomad@Nomad-MacBook-Pro ~ % docker volume rm httpd_htdocs
+httpd_htdocs
+nomad@Nomad-MacBook-Pro ~ % pwd
+/Users/nomad
+nomad@Nomad-MacBook-Pro ~ % docker run --rm -d --name apache_host -p 80:80 -v /Users/Nomad/:/usr/local/apache2/htdocs/ httpd:2.4
+dfc09460d0dc36404409a86839a892fbd8646172b434a633e392f2d975ad39ac
+nomad@Nomad-MacBook-Pro ~ % curl localhost
+<html><body><h1>It works in Docker!</h1></body></html
+nomad@Nomad-MacBook-Pro ~ % curl localhost
+<html><body><h1>It works quite well in Docker!</h1></body></html
