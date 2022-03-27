@@ -1,0 +1,203 @@
+nomad@Nomad-MacBook-Pro git % git clone git@github.com:docker-hy/material-applications.git
+Cloning into 'material-applications'...
+Enter passphrase for key '/Users/nomad/.ssh/id_rsa':
+remote: Enumerating objects: 651, done.
+remote: Counting objects: 100% (651/651), done.
+remote: Compressing objects: 100% (402/402), done.
+remote: Total 651 (delta 233), reused 586 (delta 170), pack-reused 0
+Receiving objects: 100% (651/651), 715.70 KiB | 1.56 MiB/s, done.
+Resolving deltas: 100% (233/233), done.
+nomad@Nomad-MacBook-Pro git % cd material-applications
+nomad@Nomad-MacBook-Pro material-applications % cd scaling-exercise
+nomad@Nomad-MacBook-Pro scaling-exercise % docker-compose up
+Creating network "scaling-exercise_default" with the default driver
+Pulling calculator (devopsdockeruh/scaling-exercise-calculator:)...
+latest: Pulling from devopsdockeruh/scaling-exercise-calculator
+59bf1c3509f3: Pull complete
+b616ac4a64bf: Pull complete
+3b9e1e8ab9ce: Pull complete
+3507ddbf3909: Pull complete
+8215d3b1f05c: Pull complete
+3bdef4317ef4: Pull complete
+Digest: sha256:fc0beb8040984a57295518e9b2a0397063a57200aead5c339ebb075900d34aac
+Status: Downloaded newer image for devopsdockeruh/scaling-exercise-calculator:latest
+Pulling compute (devopsdockeruh/scaling-exercise-compute:)...
+latest: Pulling from devopsdockeruh/scaling-exercise-compute
+59bf1c3509f3: Already exists
+b616ac4a64bf: Already exists
+3b9e1e8ab9ce: Already exists
+3507ddbf3909: Already exists
+84bd96422fd6: Pull complete
+d70e2f77d9a7: Pull complete
+01eb6b846ef2: Pull complete
+f8d70de855ef: Pull complete
+Digest: sha256:5bdb4e15253436fb6e327d384f605ceec029632f08cdb52d76b8d34d3a655a06
+Status: Downloaded newer image for devopsdockeruh/scaling-exercise-compute:latest
+Building load-balancer
+[+] Building 16.1s (6/6) FINISHED
+ => [internal] load build definition from Dockerfile                                                                                                                                                                                                                    0.0s
+ => => transferring dockerfile: 78B                                                                                                                                                                                                                                     0.0s
+ => [internal] load .dockerignore                                                                                                                                                                                                                                       0.0s
+ => => transferring context: 2B                                                                                                                                                                                                                                         0.0s
+ => [internal] load metadata for docker.io/jwilder/nginx-proxy:latest                                                                                                                                                                                                   3.2s
+ => [auth] jwilder/nginx-proxy:pull token for registry-1.docker.io                                                                                                                                                                                                      0.0s
+ => [1/1] FROM docker.io/jwilder/nginx-proxy@sha256:c26884188298ca00eb623cdd68f2c8f3de085c358ede3c12d056176bdb93fc80                                                                                                                                                   12.7s
+ => => resolve docker.io/jwilder/nginx-proxy@sha256:c26884188298ca00eb623cdd68f2c8f3de085c358ede3c12d056176bdb93fc80                                                                                                                                                    0.0s
+ => => sha256:449f50395b1a1947699527f7ada7c30e2b4d837d05fdf489b60e2a0febbc9956 10.72kB / 10.72kB                                                                                                                                                                        0.0s
+ => => sha256:dca7733b187e4e05ef6a71f40eb02380dde472b7e3da6dcffcafcfded823352b 601B / 601B                                                                                                                                                                              0.2s
+ => => sha256:c26884188298ca00eb623cdd68f2c8f3de085c358ede3c12d056176bdb93fc80 1.08kB / 1.08kB                                                                                                                                                                          0.0s
+ => => sha256:529dcf000fab41fd214fd5eef8d37f84eede810ef11d8128300f411681ca0e95 3.03kB / 3.03kB                                                                                                                                                                          0.0s
+ => => sha256:ae13dd57832654086618a81dbc128846aa092489260c326ee95429b63c3cf213 31.38MB / 31.38MB                                                                                                                                                                        6.5s
+ => => sha256:6c0ee9353e13944dca360479cb7eecfa65c6726948c1b85db3f8b57b68631a3b 25.35MB / 25.35MB                                                                                                                                                                        6.0s
+ => => sha256:352e5a6cac2644c979e06a33493d883694ad0716bab021561da45e2f4afd84cd 892B / 892B                                                                                                                                                                              1.0s
+ => => sha256:9eaf108767c796d28e8400fe30b87d5624b985847173bb20587ae85bc7179e3a 664B / 664B                                                                                                                                                                              1.2s
+ => => sha256:be0c016df0be98964bf62fc97d820463c5228ed3ceef321cb4bedc5b86eb7660 1.39kB / 1.39kB                                                                                                                                                                          1.5s
+ => => sha256:7fc8b310724d67a59b044028863b983f609d100638150eca594210e884400e38 355.86kB / 355.86kB                                                                                                                                                                      2.1s
+ => => sha256:9beea333e58f0683235ab4d66bdead499905b9099cee6a39fcd0c61ac5f38661 523B / 523B                                                                                                                                                                              2.5s
+ => => sha256:2829f260b13d1d0b7425c87282180ff13bfbd66d0f1b529a9b13495b224a28f9 2.07MB / 2.07MB                                                                                                                                                                          3.6s
+ => => sha256:bde7f3f69d54d466cfcd9c49b4fe2e937d1eac2d1c23b2a53bea210de269fa7a 5.52MB / 5.52MB                                                                                                                                                                          5.7s
+ => => sha256:d199cbf70c4ae6b1e4cf6c54f130f77b18728ce6d3d095ea847367df79e339c2 277B / 277B                                                                                                                                                                              6.3s
+ => => sha256:f5ca9480c65df2677f26dcf706e85afed27c1b15d1c8b1e80d82148678c33a5f 7.63kB / 7.63kB                                                                                                                                                                          6.5s
+ => => sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1 32B / 32B                                                                                                                                                                                6.5s
+ => => extracting sha256:ae13dd57832654086618a81dbc128846aa092489260c326ee95429b63c3cf213                                                                                                                                                                               2.5s
+ => => extracting sha256:6c0ee9353e13944dca360479cb7eecfa65c6726948c1b85db3f8b57b68631a3b                                                                                                                                                                               1.6s
+ => => extracting sha256:dca7733b187e4e05ef6a71f40eb02380dde472b7e3da6dcffcafcfded823352b                                                                                                                                                                               0.0s
+ => => extracting sha256:352e5a6cac2644c979e06a33493d883694ad0716bab021561da45e2f4afd84cd                                                                                                                                                                               0.0s
+ => => extracting sha256:9eaf108767c796d28e8400fe30b87d5624b985847173bb20587ae85bc7179e3a                                                                                                                                                                               0.0s
+ => => extracting sha256:be0c016df0be98964bf62fc97d820463c5228ed3ceef321cb4bedc5b86eb7660                                                                                                                                                                               0.0s
+ => => extracting sha256:7fc8b310724d67a59b044028863b983f609d100638150eca594210e884400e38                                                                                                                                                                               0.1s
+ => => extracting sha256:9beea333e58f0683235ab4d66bdead499905b9099cee6a39fcd0c61ac5f38661                                                                                                                                                                               0.0s
+ => => extracting sha256:2829f260b13d1d0b7425c87282180ff13bfbd66d0f1b529a9b13495b224a28f9                                                                                                                                                                               0.2s
+ => => extracting sha256:bde7f3f69d54d466cfcd9c49b4fe2e937d1eac2d1c23b2a53bea210de269fa7a                                                                                                                                                                               0.3s
+ => => extracting sha256:d199cbf70c4ae6b1e4cf6c54f130f77b18728ce6d3d095ea847367df79e339c2                                                                                                                                                                               0.0s
+ => => extracting sha256:f5ca9480c65df2677f26dcf706e85afed27c1b15d1c8b1e80d82148678c33a5f                                                                                                                                                                               0.0s
+ => => extracting sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1                                                                                                                                                                               0.0s
+ => exporting to image                                                                                                                                                                                                                                                  0.1s
+ => => exporting layers                                                                                                                                                                                                                                                 0.0s
+ => => writing image sha256:eef9fdebebd779a385136bee5d3e55e1525c8b807d092ef08d4e547d6c064958                                                                                                                                                                            0.0s
+ => => naming to docker.io/library/load-balancer                                                                                                                                                                                                                        0.0s
+
+Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
+WARNING: Image for service load-balancer was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
+Creating load-balancer              ... done
+Creating scaling-exercise_compute_1 ... done
+Creating calculator                 ... done
+Attaching to calculator, scaling-exercise_compute_1, load-balancer
+load-balancer    | Info: running nginx-proxy version 1.0.0-8-g0442ed9
+load-balancer    | Setting up DH Parameters..
+load-balancer    | forego      | starting dockergen.1 on port 5000
+load-balancer    | forego      | starting nginx.1 on port 5100
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: using the "epoll" event method
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: nginx/1.21.6
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: built by gcc 10.2.1 20210110 (Debian 10.2.1-6)
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: OS: Linux 5.10.104-linuxkit
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: start worker processes
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: start worker process 26
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: start worker process 27
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: start worker process 28
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: start worker process 29
+load-balancer    | dockergen.1 | 2022/03/27 14:59:36 Template error: open /etc/nginx/certs: no such file or directory
+load-balancer    | dockergen.1 | 2022/03/27 14:59:36 Generated '/etc/nginx/conf.d/default.conf' from 9 containers
+load-balancer    | dockergen.1 | 2022/03/27 14:59:36 Running 'nginx -s reload'
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: signal 1 (SIGHUP) received from 33, reconfiguring
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: reconfiguring
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: using the "epoll" event method
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: start worker processes
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: start worker process 34
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: start worker process 35
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: start worker process 36
+load-balancer    | dockergen.1 | 2022/03/27 14:59:36 Watching docker events
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: start worker process 38
+compute_1        | I am alive in port 3000!
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 28#28: gracefully shutting down
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 27#27: gracefully shutting down
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 26#26: gracefully shutting down
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 28#28: exiting
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 27#27: exiting
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 26#26: exiting
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 28#28: exit
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 27#27: exit
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 26#26: exit
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 29#29: gracefully shutting down
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 29#29: exiting
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 29#29: exit
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: signal 17 (SIGCHLD) received from 26
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: worker process 26 exited with code 0
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: signal 29 (SIGIO) received
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: signal 17 (SIGCHLD) received from 27
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: worker process 27 exited with code 0
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: signal 29 (SIGIO) received
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: signal 17 (SIGCHLD) received from 29
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: worker process 29 exited with code 0
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: signal 29 (SIGIO) received
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: signal 17 (SIGCHLD) received from 28
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: worker process 28 exited with code 0
+load-balancer    | nginx.1     | 2022/03/27 14:59:36 [notice] 21#21: signal 29 (SIGIO) received
+load-balancer    | dockergen.1 | 2022/03/27 14:59:37 Template error: open /etc/nginx/certs: no such file or directory
+load-balancer    | dockergen.1 | 2022/03/27 14:59:37 Contents of /etc/nginx/conf.d/default.conf did not change. Skipping notification 'nginx -s reload'
+calculator       | INFO: Accepting connections at http://localhost:3000
+^CGracefully stopping... (press Ctrl+C again to force)
+Killing scaling-exercise_compute_1  ... done
+Killing load-balancer               ... done
+Killing calculator                  ... done
+ERROR: 2
+nomad@Nomad-MacBook-Pro scaling-exercise % docker-compose up --scale compute=2
+Starting load-balancer              ... done
+Starting scaling-exercise_compute_1 ... done
+Starting calculator                 ... done
+Creating scaling-exercise_compute_2 ... done
+Attaching to calculator, load-balancer, scaling-exercise_compute_1, scaling-exercise_compute_2
+compute_1        | I am alive in port 3000!
+load-balancer    | Info: running nginx-proxy version 1.0.0-8-g0442ed9
+load-balancer    | Warning: A custom dhparam.pem file was provided. Best practice is to use standardized RFC7919 DHE groups instead.
+load-balancer    | forego      | starting dockergen.1 on port 5000
+load-balancer    | forego      | starting nginx.1 on port 5100
+load-balancer    | nginx.1     | 2022/03/27 15:01:21 [notice] 19#19: using the "epoll" event method
+load-balancer    | nginx.1     | 2022/03/27 15:01:21 [notice] 19#19: nginx/1.21.6
+load-balancer    | nginx.1     | 2022/03/27 15:01:21 [notice] 19#19: built by gcc 10.2.1 20210110 (Debian 10.2.1-6)
+load-balancer    | nginx.1     | 2022/03/27 15:01:21 [notice] 19#19: OS: Linux 5.10.104-linuxkit
+load-balancer    | nginx.1     | 2022/03/27 15:01:21 [notice] 19#19: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+load-balancer    | nginx.1     | 2022/03/27 15:01:21 [notice] 19#19: start worker processes
+load-balancer    | nginx.1     | 2022/03/27 15:01:21 [notice] 19#19: start worker process 23
+load-balancer    | nginx.1     | 2022/03/27 15:01:21 [notice] 19#19: start worker process 24
+load-balancer    | nginx.1     | 2022/03/27 15:01:21 [notice] 19#19: start worker process 25
+load-balancer    | nginx.1     | 2022/03/27 15:01:21 [notice] 19#19: start worker process 26
+calculator       | INFO: Accepting connections at http://localhost:3000
+load-balancer    | dockergen.1 | 2022/03/27 15:01:22 Template error: open /etc/nginx/certs: no such file or directory
+load-balancer    | dockergen.1 | 2022/03/27 15:01:22 Generated '/etc/nginx/conf.d/default.conf' from 10 containers
+load-balancer    | dockergen.1 | 2022/03/27 15:01:22 Running 'nginx -s reload'
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 19#19: signal 1 (SIGHUP) received from 29, reconfiguring
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 19#19: reconfiguring
+load-balancer    | dockergen.1 | 2022/03/27 15:01:22 Watching docker events
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 19#19: using the "epoll" event method
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 19#19: start worker processes
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 19#19: start worker process 33
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 19#19: start worker process 34
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 19#19: start worker process 35
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 19#19: start worker process 36
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 23#23: gracefully shutting down
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 26#26: gracefully shutting down
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 23#23: exiting
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 25#25: gracefully shutting down
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 23#23: exit
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 25#25: exiting
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 24#24: gracefully shutting down
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 24#24: exiting
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 24#24: exit
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 25#25: exit
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 26#26: exiting
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 26#26: exit
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 19#19: signal 17 (SIGCHLD) received from 24
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 19#19: worker process 24 exited with code 0
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 19#19: signal 29 (SIGIO) received
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 19#19: signal 17 (SIGCHLD) received from 23
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 19#19: worker process 23 exited with code 0
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 19#19: worker process 25 exited with code 0
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 19#19: signal 29 (SIGIO) received
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 19#19: signal 17 (SIGCHLD) received from 26
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 19#19: worker process 26 exited with code 0
+load-balancer    | nginx.1     | 2022/03/27 15:01:22 [notice] 19#19: signal 29 (SIGIO) received
+compute_2        | I am alive in port 3000!
+load-balancer    | dockergen.1 | 2022/03/27 15:01:22 Template error: open /etc/nginx/certs: no such file or directory
+load-balancer    | dockergen.1 | 2022/03/27 15:01:22 Contents of /etc/nginx/conf.d/default.conf did not change. Skipping notification 'nginx -s reload'

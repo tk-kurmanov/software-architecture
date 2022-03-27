@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+    port_app:
+        image: devopsdockeruh/ports_exercise
+        build: .
+        ports:
+            - 80:80
+        container_name: port_app
