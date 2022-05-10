@@ -1,0 +1,410 @@
+Last login: Tue May 10 13:06:42 on console
+nomad@Nomads-MacBook-Pro ~ % docker run hello-world
+Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+2db29710123e: Pull complete
+Digest: sha256:10d7d58d5ebd2a652f4d93fdd86da8f265f5318c6a73cc5b6a9798ff6d2b2e67
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+
+nomad@Nomads-MacBook-Pro ~ % docker pull alpine
+Using default tag: latest
+latest: Pulling from library/alpine
+df9b9388f04a: Pull complete
+Digest: sha256:4edbd2beb5f78b1014028f4fbb99f3237d9561100b6881aabbf5acce2c4f9454
+Status: Downloaded newer image for alpine:latest
+docker.io/library/alpine:latest
+nomad@Nomads-MacBook-Pro ~ % docker images
+REPOSITORY    TAG       IMAGE ID       CREATED        SIZE
+alpine        latest    0ac33e5f5afa   5 weeks ago    5.57MB
+hello-world   latest    feb5d9fea6a5   7 months ago   13.3kB
+nomad@Nomads-MacBook-Pro ~ % docker run alpine ls -l
+total 56
+drwxr-xr-x    2 root     root          4096 Apr  4 16:06 bin
+drwxr-xr-x    5 root     root           340 May 10 07:14 dev
+drwxr-xr-x    1 root     root          4096 May 10 07:14 etc
+drwxr-xr-x    2 root     root          4096 Apr  4 16:06 home
+drwxr-xr-x    7 root     root          4096 Apr  4 16:06 lib
+drwxr-xr-x    5 root     root          4096 Apr  4 16:06 media
+drwxr-xr-x    2 root     root          4096 Apr  4 16:06 mnt
+drwxr-xr-x    2 root     root          4096 Apr  4 16:06 opt
+dr-xr-xr-x  194 root     root             0 May 10 07:14 proc
+drwx------    2 root     root          4096 Apr  4 16:06 root
+drwxr-xr-x    2 root     root          4096 Apr  4 16:06 run
+drwxr-xr-x    2 root     root          4096 Apr  4 16:06 sbin
+drwxr-xr-x    2 root     root          4096 Apr  4 16:06 srv
+dr-xr-xr-x   13 root     root             0 May 10 07:14 sys
+drwxrwxrwt    2 root     root          4096 Apr  4 16:06 tmp
+drwxr-xr-x    7 root     root          4096 Apr  4 16:06 usr
+drwxr-xr-x   12 root     root          4096 Apr  4 16:06 var
+nomad@Nomads-MacBook-Pro ~ % docker run alpine echo "hello from alpine"
+hello from alpine
+nomad@Nomads-MacBook-Pro ~ % docker run alpine /bin/sh
+nomad@Nomads-MacBook-Pro ~ % docker run -it alpine /bin/sh
+/ # ls -l
+total 56
+drwxr-xr-x    2 root     root          4096 Apr  4 16:06 bin
+drwxr-xr-x    5 root     root           360 May 10 07:15 dev
+drwxr-xr-x    1 root     root          4096 May 10 07:15 etc
+drwxr-xr-x    2 root     root          4096 Apr  4 16:06 home
+drwxr-xr-x    7 root     root          4096 Apr  4 16:06 lib
+drwxr-xr-x    5 root     root          4096 Apr  4 16:06 media
+drwxr-xr-x    2 root     root          4096 Apr  4 16:06 mnt
+drwxr-xr-x    2 root     root          4096 Apr  4 16:06 opt
+dr-xr-xr-x  195 root     root             0 May 10 07:15 proc
+drwx------    1 root     root          4096 May 10 07:16 root
+drwxr-xr-x    2 root     root          4096 Apr  4 16:06 run
+drwxr-xr-x    2 root     root          4096 Apr  4 16:06 sbin
+drwxr-xr-x    2 root     root          4096 Apr  4 16:06 srv
+dr-xr-xr-x   13 root     root             0 May 10 07:15 sys
+drwxrwxrwt    2 root     root          4096 Apr  4 16:06 tmp
+drwxr-xr-x    7 root     root          4096 Apr  4 16:06 usr
+drwxr-xr-x   12 root     root          4096 Apr  4 16:06 var
+/ # uname -a
+Linux aef0bb2e679a 5.10.104-linuxkit #1 SMP Thu Mar 17 17:08:06 UTC 2022 x86_64 Linux
+/ # exit
+nomad@Nomads-MacBook-Pro ~ % docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+nomad@Nomads-MacBook-Pro ~ % docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED              STATUS                          PORTS     NAMES
+aef0bb2e679a   alpine        "/bin/sh"                43 seconds ago       Exited (0) 16 seconds ago                 vigilant_johnson
+cb2187d6accb   alpine        "/bin/sh"                About a minute ago   Exited (0) About a minute ago             practical_hypatia
+a21674c0f0fc   alpine        "echo 'hello from al…"   About a minute ago   Exited (0) About a minute ago             hopeful_lichterman
+d3517f076d28   alpine        "ls -l"                  2 minutes ago        Exited (0) 2 minutes ago                  festive_goldwasser
+1dd1bfa9b03a   hello-world   "/hello"                 3 minutes ago        Exited (0) 3 minutes ago                  trusting_bartik
+nomad@Nomads-MacBook-Pro ~ % docker run -it alpine /bin/sh
+/ # ls
+bin    etc    lib    mnt    proc   run    srv    tmp    var
+dev    home   media  opt    root   sbin   sys    usr
+/ # uname -a
+Linux f0e1f8ba298b 5.10.104-linuxkit #1 SMP Thu Mar 17 17:08:06 UTC 2022 x86_64 Linux
+/ # exit
+nomad@Nomads-MacBook-Pro ~ % docker run --help
+
+Usage:  docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+
+Run a command in a new container
+
+Options:
+      --add-host list                  Add a custom host-to-IP mapping
+                                       (host:ip)
+  -a, --attach list                    Attach to STDIN, STDOUT or STDERR
+      --blkio-weight uint16            Block IO (relative weight),
+                                       between 10 and 1000, or 0 to
+                                       disable (default 0)
+      --blkio-weight-device list       Block IO weight (relative device
+                                       weight) (default [])
+      --cap-add list                   Add Linux capabilities
+      --cap-drop list                  Drop Linux capabilities
+      --cgroup-parent string           Optional parent cgroup for the
+                                       container
+      --cgroupns string                Cgroup namespace to use
+                                       (host|private)
+                                       'host':    Run the container in
+                                       the Docker host's cgroup namespace
+                                       'private': Run the container in
+                                       its own private cgroup namespace
+                                       '':        Use the cgroup
+                                       namespace as configured by the
+                                                  default-cgroupns-mode
+                                       option on the daemon (default)
+      --cidfile string                 Write the container ID to the file
+      --cpu-period int                 Limit CPU CFS (Completely Fair
+                                       Scheduler) period
+      --cpu-quota int                  Limit CPU CFS (Completely Fair
+                                       Scheduler) quota
+      --cpu-rt-period int              Limit CPU real-time period in
+                                       microseconds
+      --cpu-rt-runtime int             Limit CPU real-time runtime in
+                                       microseconds
+  -c, --cpu-shares int                 CPU shares (relative weight)
+      --cpus decimal                   Number of CPUs
+      --cpuset-cpus string             CPUs in which to allow execution
+                                       (0-3, 0,1)
+      --cpuset-mems string             MEMs in which to allow execution
+                                       (0-3, 0,1)
+  -d, --detach                         Run container in background and
+                                       print container ID
+      --detach-keys string             Override the key sequence for
+                                       detaching a container
+      --device list                    Add a host device to the container
+      --device-cgroup-rule list        Add a rule to the cgroup allowed
+                                       devices list
+      --device-read-bps list           Limit read rate (bytes per second)
+                                       from a device (default [])
+      --device-read-iops list          Limit read rate (IO per second)
+                                       from a device (default [])
+      --device-write-bps list          Limit write rate (bytes per
+                                       second) to a device (default [])
+      --device-write-iops list         Limit write rate (IO per second)
+                                       to a device (default [])
+      --disable-content-trust          Skip image verification (default true)
+      --dns list                       Set custom DNS servers
+      --dns-option list                Set DNS options
+      --dns-search list                Set custom DNS search domains
+      --domainname string              Container NIS domain name
+      --entrypoint string              Overwrite the default ENTRYPOINT
+                                       of the image
+  -e, --env list                       Set environment variables
+      --env-file list                  Read in a file of environment variables
+      --expose list                    Expose a port or a range of ports
+      --gpus gpu-request               GPU devices to add to the
+                                       container ('all' to pass all GPUs)
+      --group-add list                 Add additional groups to join
+      --health-cmd string              Command to run to check health
+      --health-interval duration       Time between running the check
+                                       (ms|s|m|h) (default 0s)
+      --health-retries int             Consecutive failures needed to
+                                       report unhealthy
+      --health-start-period duration   Start period for the container to
+                                       initialize before starting
+                                       health-retries countdown
+                                       (ms|s|m|h) (default 0s)
+      --health-timeout duration        Maximum time to allow one check to
+                                       run (ms|s|m|h) (default 0s)
+      --help                           Print usage
+  -h, --hostname string                Container host name
+      --init                           Run an init inside the container
+                                       that forwards signals and reaps
+                                       processes
+  -i, --interactive                    Keep STDIN open even if not attached
+      --ip string                      IPv4 address (e.g., 172.30.100.104)
+      --ip6 string                     IPv6 address (e.g., 2001:db8::33)
+      --ipc string                     IPC mode to use
+      --isolation string               Container isolation technology
+      --kernel-memory bytes            Kernel memory limit
+  -l, --label list                     Set meta data on a container
+      --label-file list                Read in a line delimited file of labels
+      --link list                      Add link to another container
+      --link-local-ip list             Container IPv4/IPv6 link-local
+                                       addresses
+      --log-driver string              Logging driver for the container
+      --log-opt list                   Log driver options
+      --mac-address string             Container MAC address (e.g.,
+                                       92:d0:c6:0a:29:33)
+  -m, --memory bytes                   Memory limit
+      --memory-reservation bytes       Memory soft limit
+      --memory-swap bytes              Swap limit equal to memory plus
+                                       swap: '-1' to enable unlimited swap
+      --memory-swappiness int          Tune container memory swappiness
+                                       (0 to 100) (default -1)
+      --mount mount                    Attach a filesystem mount to the
+                                       container
+      --name string                    Assign a name to the container
+      --network network                Connect a container to a network
+      --network-alias list             Add network-scoped alias for the
+                                       container
+      --no-healthcheck                 Disable any container-specified
+                                       HEALTHCHECK
+      --oom-kill-disable               Disable OOM Killer
+      --oom-score-adj int              Tune host's OOM preferences (-1000
+                                       to 1000)
+      --pid string                     PID namespace to use
+      --pids-limit int                 Tune container pids limit (set -1
+                                       for unlimited)
+      --platform string                Set platform if server is
+                                       multi-platform capable
+      --privileged                     Give extended privileges to this
+                                       container
+  -p, --publish list                   Publish a container's port(s) to
+                                       the host
+  -P, --publish-all                    Publish all exposed ports to
+                                       random ports
+      --pull string                    Pull image before running
+                                       ("always"|"missing"|"never")
+                                       (default "missing")
+      --read-only                      Mount the container's root
+                                       filesystem as read only
+      --restart string                 Restart policy to apply when a
+                                       container exits (default "no")
+      --rm                             Automatically remove the container
+                                       when it exits
+      --runtime string                 Runtime to use for this container
+      --security-opt list              Security Options
+      --shm-size bytes                 Size of /dev/shm
+      --sig-proxy                      Proxy received signals to the
+                                       process (default true)
+      --stop-signal string             Signal to stop a container
+                                       (default "SIGTERM")
+      --stop-timeout int               Timeout (in seconds) to stop a
+                                       container
+      --storage-opt list               Storage driver options for the
+                                       container
+      --sysctl map                     Sysctl options (default map[])
+      --tmpfs list                     Mount a tmpfs directory
+  -t, --tty                            Allocate a pseudo-TTY
+      --ulimit ulimit                  Ulimit options (default [])
+  -u, --user string                    Username or UID (format:
+                                       <name|uid>[:<group|gid>])
+      --userns string                  User namespace to use
+      --uts string                     UTS namespace to use
+  -v, --volume list                    Bind mount a volume
+      --volume-driver string           Optional volume driver for the
+                                       container
+      --volumes-from list              Mount volumes from the specified
+                                       container(s)
+  -w, --workdir string                 Working directory inside the container
+nomad@Nomads-MacBook-Pro ~ % docker inspect alpine
+[
+    {
+        "Id": "sha256:0ac33e5f5afa79e084075e8698a22d574816eea8d7b7d480586835657c3e1c8b",
+        "RepoTags": [
+            "alpine:latest"
+        ],
+        "RepoDigests": [
+            "alpine@sha256:4edbd2beb5f78b1014028f4fbb99f3237d9561100b6881aabbf5acce2c4f9454"
+        ],
+        "Parent": "",
+        "Comment": "",
+        "Created": "2022-04-05T00:19:59.912662499Z",
+        "Container": "b714116bd3f3418e7b61a6d70dd7244382f0844e47a8d1d66dbf61cb1cb02b2b",
+        "ContainerConfig": {
+            "Hostname": "b714116bd3f3",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "/bin/sh",
+                "-c",
+                "#(nop) ",
+                "CMD [\"/bin/sh\"]"
+            ],
+            "Image": "sha256:d49869997c508135352366cebd3509ee756bba1ceb8eef708a4c3ff0d481084a",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": {}
+        },
+        "DockerVersion": "20.10.12",
+        "Author": "",
+        "Config": {
+            "Hostname": "",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "/bin/sh"
+            ],
+            "Image": "sha256:d49869997c508135352366cebd3509ee756bba1ceb8eef708a4c3ff0d481084a",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": null
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 5574964,
+        "VirtualSize": 5574964,
+        "GraphDriver": {
+            "Data": {
+                "MergedDir": "/var/lib/docker/overlay2/2facbcfc58aa6b34045a7e06fe83b06a4a0737ded85c3d7f150c30b6f42c4654/merged",
+                "UpperDir": "/var/lib/docker/overlay2/2facbcfc58aa6b34045a7e06fe83b06a4a0737ded85c3d7f150c30b6f42c4654/diff",
+                "WorkDir": "/var/lib/docker/overlay2/2facbcfc58aa6b34045a7e06fe83b06a4a0737ded85c3d7f150c30b6f42c4654/work"
+            },
+            "Name": "overlay2"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:4fc242d58285699eca05db3cc7c7122a2b8e014d9481f323bd9277baacfa0628"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "0001-01-01T00:00:00Z"
+        }
+    }
+]
+nomad@Nomads-MacBook-Pro ~ % docker run -d dockersamples/static-site
+Unable to find image 'dockersamples/static-site:latest' locally
+latest: Pulling from dockersamples/static-site
+fdd5d7827f33: Pull complete
+a3ed95caeb02: Pull complete
+716f7a5f3082: Pull complete
+7b10f03a0309: Pull complete
+aff3ab7e9c39: Pull complete
+Digest: sha256:daa686c61d7d239b7977e72157997489db49f316b9b9af3909d9f10fd28b2dec
+Status: Downloaded newer image for dockersamples/static-site:latest
+0bc1cc4a26d9b38160423e88705d9174d7edaedbf9f3a3dfc92ebe4b09918d64
+nomad@Nomads-MacBook-Pro ~ % docker ps
+CONTAINER ID   IMAGE                       COMMAND                  CREATED          STATUS          PORTS             NAMES
+0bc1cc4a26d9   dockersamples/static-site   "/bin/sh -c 'cd /usr…"   52 seconds ago   Up 51 seconds   80/tcp, 443/tcp   distracted_solomon
+nomad@Nomads-MacBook-Pro ~ % docker stop 0bc1cc4a26d9
+0bc1cc4a26d9
+nomad@Nomads-MacBook-Pro ~ % docker rm   0bc1cc4a26d9
+0bc1cc4a26d9
+nomad@Nomads-MacBook-Pro ~ % docker run --name static-site -e AUTHOR="Timur Kurmanov" -d -P dockersamples/static-site
+926c46e5328fb1adad21cd34c9b611caf4d0816a2e64a0ce6f642f5e413db7c7
+nomad@Nomads-MacBook-Pro ~ % docker port static-site
+443/tcp -> 0.0.0.0:55000
+80/tcp -> 0.0.0.0:55001
+nomad@Nomads-MacBook-Pro ~ % docker run --name static-site-2 -e AUTHOR="Timur Kurmanov" -d -p 8888:80 dockersamples/static-site
+f11f3d43eaf08e72dd6ac0a25a22df01b5b4c1bd248819fb0e8813589284c1e5
+nomad@Nomads-MacBook-Pro ~ % docker stop static-site
+static-site
+nomad@Nomads-MacBook-Pro ~ % docker rm static-site
+static-site
+nomad@Nomads-MacBook-Pro ~ % docker rm -f static-site-2
+static-site-2
+nomad@Nomads-MacBook-Pro ~ % docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+nomad@Nomads-MacBook-Pro ~ % docker images
+REPOSITORY                  TAG       IMAGE ID       CREATED        SIZE
+alpine                      latest    0ac33e5f5afa   5 weeks ago    5.57MB
+hello-world                 latest    feb5d9fea6a5   7 months ago   13.3kB
+dockersamples/static-site   latest    f589ccde7957   6 years ago    191MB
+nomad@Nomads-MacBook-Pro ~ % docker pull ubuntu:12.04
+12.04: Pulling from library/ubuntu
+d8868e50ac4c: Pull complete
+83251ac64627: Pull complete
+589bba2f1b36: Pull complete
+d62ecaceda39: Pull complete
+6d93b41cfc6b: Pull complete
+Digest: sha256:18305429afa14ea462f810146ba44d4363ae76e4c8dfc38288cf73aa07485005
+Status: Downloaded newer image for ubuntu:12.04
+docker.io/library/ubuntu:12.04
+nomad@Nomads-MacBook-Pro ~ % docker pull ubuntu
+Using default tag: latest
+latest: Pulling from library/ubuntu
+125a6e411906: Pull complete
+Digest: sha256:26c68657ccce2cb0a31b330cb0be2b5e108d467f641c62e13ab40cbec258c68d
+Status: Downloaded newer image for ubuntu:latest
+docker.io/library/ubuntu:latest
+nomad@Nomads-MacBook-Pro ~ %
